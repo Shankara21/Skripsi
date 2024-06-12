@@ -1,0 +1,140 @@
+<div
+  *ngIf="alert"
+  data-aos="fade-down"
+  data-aos-duration="2000"
+  class="fixed z-50 flex justify-center lg:w-[84%] w-full"
+>
+  <div
+    class="flex justify-between px-8 py-6 text-white bg-yellow-400 rounded-2xl"
+  >
+    <div class="flex items-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="mr-6 h-7 w-7"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"
+        />
+      </svg>
+      <p>Warning! use <strong>dot (.)</strong> to state decimal value</p>
+    </div>
+    <button class="text-yellow-100 hover:text-white" (click)="alert = false">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<a
+  routerLink="/data-stability/{{ paramsName }}/show/{{ paramsId }}"
+  [attr.data-aos]="isAnimate ? 'fade-right' : null"
+  [attr.data-aos-duration]="isAnimate ? '500' : null"
+  class="flex items-center justify-start gap-2 px-2 py-4 mb-3 duration-300 hover:bg-white dark:hover:bg-slate-800 dark:text-slate-50 hover:shadow-xl py4 w-fit rounded-xl hover:scale-105"
+>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M15 6L9 12L15 18"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+  Back
+</a>
+
+<h1
+  class="flex-1 text-3xl font-bold text-center text-cBlue dark:text-slate-50"
+  [attr.data-aos]="isAnimate ? 'fade-down' : null"
+  [attr.data-aos-duration]="isAnimate ? '1000' : null"
+>
+  Create Stability Data
+</h1>
+
+<div class="flex items-center justify-between">
+  <div
+    class="p-4 mt-2 mb-10 w-fit rounded-xl dark:bg-slate-800 bg-[#F3F9FB] shadow-xl"
+  >
+    <h1
+      class="text-xl font-bold text-cBlue dark:text-slate-50"
+      [attr.data-aos]="isAnimate ? 'fade-right' : null"
+      [attr.data-aos-duration]="isAnimate ? '1000' : null"
+    >
+      Data for {{ schedule?.Schedule?.Timeline?.time | titlecase }} in
+      {{ schedule?.Schedule?.Temperature?.value }}
+    </h1>
+  </div>
+  <input type="file" class="w-full max-w-xs file-input" (change)="ReadExcel($event)" />
+</div>
+
+<form
+  [formGroup]="form"
+  (submit)="submit()"
+  data-aos="fade-up"
+  data-aos-duration="1000"
+>
+  <div class="grid grid-cols-4 gap-3 max-md:grid-cols-2">
+    <div class="w-full form-control" *ngFor="let item of listParameters">
+      <label class="label">
+        <span class="label-text dark:text-slate-50">{{ item.name }}</span>
+      </label>
+      <input
+        formControlName="{{ item.id }}"
+        type="number"
+        placeholder="Input value {{ item.name }}"
+        class="w-full input input-bordered dark:bg-slate-800 dark:text-slate-50"
+      />
+    </div>
+    <div class="w-full form-control">
+      <label class="label">
+        <span class="label-text dark:text-slate-50">Attachment Sensory </span>
+      </label>
+      <input
+        type="file"
+        class="w-full file-input file-input-bordered dark:bg-slate-800 dark:text-slate-50"
+        (change)="processAttachmentSensory($event)"
+      />
+    </div>
+    <div class="w-full form-control">
+      <label class="label">
+        <span class="label-text dark:text-slate-50">Attachment Nutfact </span>
+      </label>
+      <input
+        type="file"
+        class="w-full file-input file-input-bordered dark:bg-slate-800 dark:text-slate-50"
+        (change)="processattachmentAnalysis($event)"
+      />
+    </div>
+  </div>
+  <div class="flex justify-center mt-10 mb-5">
+    <button
+      type="submit"
+      class="rounded-lg relative inline-flex group items-center justify-center px-3.5 py-2 m-1 cursor-pointer border-b-4 border-l-2 active:border-[#1450A3] active:shadow-none shadow-lg bg-gradient-to-tr from-[#1450A3] to-[#1D267D] border-[#0D1282] text-white overflow-hidden"
+    >
+      <span
+        class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-32 group-hover:h-32 opacity-10"
+      ></span>
+      <span class="relative">Save Data</span>
+    </button>
+  </div>
+</form>

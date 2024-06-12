@@ -1,0 +1,477 @@
+<div
+  class="z-50 border-0 toast toast-top toast-end"
+  data-aos="fade-left"
+  data-aos-duration="500"
+>
+  <div
+    *ngIf="alert"
+    class="flex justify-between px-8 py-6 text-white bg-green-400 rounded-2xl"
+  >
+    <div class="flex items-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="mr-6 h-7 w-7"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"
+        />
+      </svg>
+      <p>{{ msg }}</p>
+    </div>
+    <button class="text-green-100 hover:text-white">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+<a
+  routerLink="/master/product-description"
+  class="flex items-center justify-start gap-2 px-2 py-4 duration-300 hover:bg-white dark:hover:bg-slate-800 dark:text-slate-50 hover:shadow-xl py4 w-fit rounded-xl hover:scale-105"
+>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M15 6L9 12L15 18"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+  Back
+</a>
+<div class="mt-2 text-3xl font-semibold text-center dark:text-slate-50">
+  Details Product
+</div>
+
+<!-- Content -->
+<div class="mt-4">
+  <div
+    class="w-1/2 h-full bg-white shadow-xl max-md:w-full dark:bg-slate-800 rounded-xl"
+  >
+    <div class="flex flex-col">
+      <div class="-m-1.5 overflow-x-auto">
+        <div class="p-1.5 min-w-full inline-block align-middle">
+          <div class="overflow-hidden">
+            <table class="min-w-full">
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tr>
+                  <td
+                    class="px-6 py-4 text-base font-medium text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    Id Product
+                  </td>
+                  <td
+                    class="px-6 py-4 text-base text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    :
+                  </td>
+                  <td
+                    class="px-6 py-4 text-base font-semibold text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{ productDesc?.id }}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td
+                    class="px-6 py-4 text-base font-medium text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    Name Product
+                  </td>
+                  <td
+                    class="px-6 py-4 text-base text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    :
+                  </td>
+                  <td
+                    class="px-6 py-4 text-base font-semibold text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{ productDesc?.Product.name }}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td
+                    class="px-6 py-4 text-base font-medium text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    Variant Product
+                  </td>
+                  <td
+                    class="px-6 py-4 text-base text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    :
+                  </td>
+                  <td
+                    class="px-6 py-4 text-base font-semibold text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{ productDesc?.Variant.name }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-4 text-3xl font-semibold text-center dark:text-slate-50">
+  Standard Parameter Product
+</div>
+
+<div
+  class="relative w-1/4 mt-4 max-md:w-1/2"
+  data-aos="fade-right"
+  data-aos-duration="1000"
+>
+  <div
+    class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+  >
+    <svg
+      class="w-4 h-4 text-gray-500 dark:text-gray-400"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 20 20"
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+      />
+    </svg>
+  </div>
+  <input
+    type="search"
+    id="default-search"
+    class="block w-full p-3 pl-10 text-base text-gray-900 border border-gray-300 rounded-2xl bg-gray-50 dark:bg-slate-700"
+    placeholder="Search data"
+    [(ngModel)]="search"
+  />
+</div>
+
+<!-- Content -->
+<div class="mt-4">
+  <div class="w-full h-full bg-white shadow-xl dark:bg-slate-800 rounded-xl">
+    <div class="flex flex-col">
+      <div class="-m-1.5 overflow-x-auto">
+        <div class="p-1.5 min-w-full inline-block align-middle">
+          <div class="overflow-hidden">
+            <table class="min-w-full">
+              <thead>
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    No
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Parameter Name
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Standard Type
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Standard Value
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tr
+                  *ngFor="
+                    let item of listStandard
+                      | filter : search
+                      | paginate : config
+                  "
+                >
+                  <td
+                    class="px-6 py-4 text-sm font-medium text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{ item.index }}
+                  </td>
+                  <td
+                    class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{ item.Parameter.name }}
+                  </td>
+                  <td
+                    class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{
+                      item.standardType
+                        ? (item.standardType == "lte" && "<=") ||
+                          (item.standardType == "gte" && ">=") ||
+                          (item.standardType == "gt" && ">") ||
+                          (item.standardType == "lt" && "<") ||
+                          (item.standardType == "range" && "Range")
+                        : "-"
+                    }}
+                  </td>
+                  <td
+                    class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{ item.standard ? item.standard : "-" }}
+                  </td>
+                  <td
+                    class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap"
+                  >
+                    <div
+                      class="flex items-center justify-center gap-2 font-normal"
+                    >
+                      <div
+                        class="duration-300 rounded-full shadow-xl hover:scale-105 tooltip"
+                        data-tip="Edit"
+                      >
+                        <label
+                          for="my_modal_6"
+                          class="cursor-pointer"
+                          (click)="getDataModal(item.id)"
+                        >
+                          <img
+                            src="assets/edit.png"
+                            alt=""
+                            class="w-10 duration-300 rounded-full shadow-2xl hover:scale-105"
+                          />
+                        </label>
+                      </div>
+                      <div
+                        class="duration-300 rounded-full shadow-xl hover:scale-105 tooltip"
+                        data-tip="Delete"
+                      >
+                        <label
+                          for="my_modal_7"
+                          class="cursor-pointer"
+                          (click)="getDataDelete(item.id)"
+                        >
+                          <img
+                            src="assets/delete.png"
+                            alt=""
+                            class="duration-300 rounded-full shadow-2xl w-11 hover:scale-105"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="flex items-center justify-center my-3">
+              <pagination-template
+                #p="paginationApi"
+                [id]="config.id"
+                (pageChange)="config.currentPage = $event"
+              >
+                <div class="flex gap-2 custom-pagination">
+                  <div class="pagination-previous">
+                    <!-- <span *ngIf="!p.isFirstPage()" (click)="p.previous()">
+                            <
+                          </span> -->
+                    <button
+                      (click)="p.previous()"
+                      [disabled]="p.isFirstPage()"
+                      [ngClass]="
+                        p.isFirstPage()
+                          ? 'text-gray-400 '
+                          : 'text-gray-700 dark:text-slate-900 hover:scale-105 active:scale-100 hover:bg-blue-100'
+                      "
+                      type="button"
+                      class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all duration-300 bg-white rounded-md shadow-sm dark:bg-slate-500"
+                    >
+                      <svg
+                        class="w-3 h-3"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                        />
+                      </svg>
+                      Prev
+                    </button>
+                  </div>
+                  <div
+                    class="page-number px-2.5 cursor-pointer flex items-center rounded-lg hover:bg-slate-100 dark:hover:text-slate-800 dark:text-slate-50 dark:hover:border-blue-100"
+                    [ngClass]="
+                      p.getCurrent() === page.value
+                        ? 'font-semibold border-blue-100 border-4  '
+                        : ''
+                    "
+                    *ngFor="let page of p.pages"
+                    [class.current]="p.getCurrent() === page.value"
+                    (click)="p.setCurrent(page.value)"
+                  >
+                    <h1 *ngIf="p.getCurrent() !== page.value">
+                      {{ page.label }}
+                    </h1>
+                    <div *ngIf="p.getCurrent() === page.value">
+                      <h1>{{ page.label }}</h1>
+                    </div>
+                  </div>
+                  <div class="pagination-next">
+                    <button
+                      (click)="p.next()"
+                      type="button"
+                      [disabled]="p.isLastPage()"
+                      [ngClass]="
+                        p.isLastPage()
+                          ? 'text-gray-400'
+                          : 'text-gray-700 dark:text-slate-900 hover:scale-105 active:scale-100 hover:bg-blue-100'
+                      "
+                      class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all bg-white rounded-md shadow-sm dark:bg-slate-500"
+                    >
+                      Next
+                      <svg
+                        class="w-3 h-3"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </pagination-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input type="checkbox" id="my_modal_6" class="modal-toggle" />
+<div class="modal" *ngIf="dataModal">
+  <div class="modal-box max-w-[50vw] dark:bg-slate-800 dark:text-slate-50">
+    <h3 class="mb-1 text-lg font-bold">
+      {{ dataModal.Parameter.name }}
+      <span class="text-base font-medium"
+        >in {{ productDesc.Product.name }} ({{
+          productDesc.Variant.name
+        }})</span
+      >
+    </h3>
+    <h3 class="text-lg font-medium">Update Standard Parameter</h3>
+    <form [formGroup]="form">
+      <div class="grid grid-cols-2 gap-3 mt-3">
+        <div class="w-full max-w-xs form-control">
+          <label class="label">
+            <span class="font-semibold label-text dark:text-slate-50"
+              >Standard Type</span
+            >
+          </label>
+          <select
+            class="w-full max-w-xs select select-bordered dark:bg-slate-700"
+            formControlName="standardType"
+          >
+            <option value="range">Range</option>
+            <option value="lte"><= (Less Than Equals)</option>
+            <option value="gte">>= (Greater Than Equals)</option>
+            <option value="gt">> (Greater Than )</option>
+            <option value="lt">< (Less Than)</option>
+          </select>
+        </div>
+        <div class="w-full max-w-xs form-control">
+          <label class="label">
+            <span class="font-semibold label-text dark:text-slate-50"
+              >Standard Value</span
+            >
+          </label>
+          <input
+            type="text"
+            placeholder="Type here"
+            class="w-full max-w-xs input input-bordered dark:bg-slate-700"
+            formControlName="standard"
+          />
+          <p class="px-1 mt-3 text-xs text-red-500">
+            *Gunakan titik (.) untuk menuliskan desimal pada standard value
+          </p>
+        </div>
+      </div>
+    </form>
+    <div class="modal-action">
+      <label
+        for="my_modal_6"
+        (click)="updateStandard()"
+        class="btn border-0 bg-[#5D9C59] hover:bg-[#367E18]"
+        >Save</label
+      >
+      <label
+        for="my_modal_6"
+        class="btn bg-[#DF2E38] hover:bg-[#C21010] border-0"
+        >Cancel</label
+      >
+    </div>
+  </div>
+</div>
+
+<input type="checkbox" id="my_modal_7" class="modal-toggle" />
+<div class="modal" *ngIf="dataDelete">
+  <div class="modal-box dark:bg-slate-800 dark:text-slate-50">
+    <h3 class="mb-1 text-lg font-bold">Alert!</h3>
+    <h3 class="mb-1 text-lg font-medium">
+      Are you sure delete <strong>{{ dataDelete.Parameter.name }}</strong> ?
+    </h3>
+    <div class="modal-action">
+      <label
+        for="my_modal_7"
+        (click)="deleteData(dataDelete?.id)"
+        class="btn bg-[#DF2E38] hover:bg-[#C21010] border-0"
+        >Delete</label
+      >
+      <label
+        for="my_modal_7"
+        class="btn border-0 bg-[#5D9C59] hover:bg-[#367E18]"
+        >Cancel</label
+      >
+    </div>
+  </div>
+</div>

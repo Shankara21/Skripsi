@@ -1,0 +1,702 @@
+<div
+  class="z-50 border-0 toast toast-top toast-end"
+  data-aos="fade-left"
+  data-aos-duration="500"
+>
+  <div
+    class="flex justify-between px-8 py-6 text-white bg-red-400 rounded-2xl"
+    *ngIf="alert"
+  >
+    <div class="flex items-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="mr-6 h-7 w-7"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <p>{{ msg }}</p>
+    </div>
+    <button (click)="alert = false" class="text-red-100 hover:text-white">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<a
+  routerLink="/master/product"
+  class="flex items-center justify-start gap-2 px-2 py-4 my-2 duration-300 hover:bg-white dark:hover:bg-slate-800 dark:text-slate-50 hover:shadow-xl py4 w-fit rounded-xl hover:scale-105"
+>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M15 6L9 12L15 18"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+  Back
+</a>
+
+<div class="p-3 px-4 py-5 bg-white shadow-xl rounded-xl dark:bg-slate-900">
+  <div class="text-3xl font-semibold dark:text-slate-50">Edit Product</div>
+  <form class="w-full" (submit)="submit()" [formGroup]="form">
+    <div class="grid grid-cols-2 gap-3 mt-4 max-md:grid-cols-1">
+      <div class="">
+        <label for="input-name" class="cursor-pointer dark:text-slate-50"
+          >Name</label
+        >
+        <input
+          type="search"
+          id="input-name"
+          class="block w-full p-3 mt-2 text-base text-gray-900 border border-gray-300 dark:text-slate-50 rounded-2xl bg-gray-50 dark:bg-slate-700"
+          placeholder="Name Product"
+          formControlName="name"
+        />
+      </div>
+    </div>
+    <div class="flex justify-end my-4">
+      <label
+        for="my_modal_6"
+        class="duration-300 cursor-pointer dark:text-slate-50 hover:scale-105 active:scale-100"
+      >
+        <svg
+          width="50"
+          height="50"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M8 8L10 6M8 8L10 10M8 8H14C15.1046 8 16 8.89543 16 10V11M16 16L14 18M16 16L14 14M16 16H10C8.89543 16 8 15.1046 8 14V13"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+          <circle
+            r="10"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            transform="matrix(-1 0 0 1 12 12)"
+          />
+        </svg>
+      </label>
+    </div>
+    <div class="my-5">
+      <ol
+        class="flex items-center justify-center max-w-full mb-4 sm:mb-5 md:mx-20"
+      >
+        <li
+          class="flex w-full items-center text-blue-600 after:content-[''] after:border-4 after:inline-block after:w-full after:h-1 after:border-b duration-1000"
+          [ngClass]="
+            classNames(
+              is40degree || is50degree
+                ? 'after:border-blue-300 dark:after:border-blue-400'
+                : 'dark:after:border-slate-600'
+            )
+          "
+        >
+          <div
+            class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-blue-200 shrink-0"
+          >
+            30 <sup>ο</sup>
+          </div>
+        </li>
+        <li
+          class="flex w-full items-center {{
+            is50degree || is40degree ? 'text-blue-600' : ''
+          }} after:content-[''] after:border-4 after:inline-block after:w-full after:h-1 after:border-b"
+          [ngClass]="
+            classNames(
+              is50degree
+                ? 'after:border-blue-300 dark:after:border-blue-400'
+                : 'dark:after:border-slate-600'
+            )
+          "
+        >
+          <div
+            class="flex items-center justify-center w-10 h-10 rounded-full lg:h-12 lg:w-12 shrink-0"
+            [ngClass]="
+              classNames(
+                is40degree || is50degree
+                  ? 'bg-blue-100 dark:bg-blue-200'
+                  : 'bg-gray-100 dark:bg-gray-700'
+              )
+            "
+          >
+            40 <sup>ο</sup>
+          </div>
+        </li>
+        <li class="flex items-center {{ is50degree ? 'text-blue-600' : '' }}">
+          <div
+            class="flex items-center justify-center w-10 h-10 rounded-full lg:h-12 lg:w-12 shrink-0"
+            [ngClass]="
+              classNames(
+                is50degree
+                  ? 'bg-blue-100 dark:bg-blue-200'
+                  : 'bg-gray-100 dark:bg-gray-700'
+              )
+            "
+          >
+            50 <sup>ο</sup>
+          </div>
+        </li>
+      </ol>
+      <div class="flex justify-end mb-4 mr-10">
+        <button
+          (click)="prevDegree()"
+          type="button"
+          class="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 dark:text-slate-50 hover:bg-gray-200 rounded-full dark:hover:text-slate-900"
+        >
+          <span class="sr-only">Previous month</span>
+
+          <svg
+            width="20px"
+            height="20px"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/1500/svg"
+          >
+            <polyline
+              fill="none"
+              id="Left"
+              points="15.5 5 8.5 12 15.5 19"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </button>
+        <button
+          (click)="nextDegree()"
+          type="button"
+          class="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 dark:text-slate-50 text-gray-400 hover:bg-gray-200 rounded-full dark:hover:text-slate-900"
+        >
+          <span class="sr-only">Next month</span>
+          <svg
+            width="20px"
+            height="20px"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            class=""
+          >
+            <polyline
+              fill="none"
+              id="Right"
+              points="8.5 5 15.5 12 8.5 19"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </button>
+      </div>
+      <div class="" *ngIf="is30degree">
+        <div class="grid grid-cols-4 max-md:grid-cols-2">
+          <div
+            class="flex items-center p-1 pl-3 m-3 bg-white border dark:bg-slate-700 rounded-xl dark:border-none"
+            *ngFor="let item of checklist30degree; index as i"
+          >
+            <input
+              type="checkbox"
+              [checked]="item.isCheck"
+              (change)="updateChecklist30degree($event, i)"
+              class="checkbox dark:border-gray-600"
+              id="{{ i + 1 }}"
+            />
+            <label
+              for="{{ i + 1 }}"
+              class="w-full py-3 ml-2 text-sm font-medium text-gray-900 cursor-pointer dark:text-slate-50"
+              >{{ item.time }}</label
+            >
+          </div>
+        </div>
+      </div>
+      <div class="" *ngIf="is40degree">
+        <div class="grid grid-cols-4 max-md:grid-cols-2">
+          <div
+            class="flex items-center p-1 pl-3 m-3 bg-white border dark:bg-slate-700 rounded-xl dark:border-none"
+            *ngFor="let item of checklist40degree; index as i"
+          >
+            <input
+              type="checkbox"
+              [checked]="item.isCheck"
+              (change)="updateChecklist40degree($event, i)"
+              class="checkbox dark:border-gray-600"
+              id="{{ i + 2 }}"
+            />
+            <label
+              for="{{ i + 2 }}"
+              class="w-full py-3 ml-2 text-sm font-medium text-gray-900 cursor-pointer dark:text-slate-50"
+              >{{ item.time }}</label
+            >
+          </div>
+        </div>
+      </div>
+      <div class="" *ngIf="is50degree">
+        <div class="grid grid-cols-4 max-md:grid-cols-2">
+          <div
+            class="flex items-center p-1 pl-3 m-3 bg-white border dark:bg-slate-700 rounded-xl dark:border-none"
+            *ngFor="let item of checklist50degree; index as i"
+          >
+            <input
+              type="checkbox"
+              [checked]="item.isCheck"
+              (change)="updateChecklist50degree($event, i)"
+              class="checkbox dark:border-gray-600"
+              id="{{ i + 3 }}"
+            />
+            <label
+              for="{{ i + 3 }}"
+              class="w-full py-3 ml-2 text-sm font-medium text-gray-900 cursor-pointer dark:text-slate-50"
+              >{{ item.time }}</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-center">
+      <button
+        type="submit"
+        class="text-white bg-cBlue mt-5 hover:bg-[#150050] hover:scale-105 duration-300 active:scale-100 font-medium rounded-xl text-sm w-1/3 py-3 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+
+<input type="checkbox" id="my_modal_6" class="modal-toggle" />
+<div class="modal">
+  <div
+    class="modal-box dark:bg-slate-800 dark:text-slate-50 lg:max-w-[60vw] max-md:w-[90vw]"
+  >
+    <div class="flex items-center justify-between">
+      <h3 class="text-lg font-bold">Create from existing pattern product</h3>
+      <label
+        for="my_modal_6"
+        class="text-red-500 duration-300 rounded-full cursor-pointer hover:scale-105"
+      >
+        <svg
+          width="35"
+          height="35"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+          <path
+            d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+        </svg>
+      </label>
+    </div>
+    <div class="relative w-1/4 my-4 max-md:w-1/2">
+      <div
+        class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+      >
+        <svg
+          class="w-4 h-4 text-gray-500 dark:text-gray-400"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 20 20"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+          />
+        </svg>
+      </div>
+      <input
+        type="search"
+        id="default-search"
+        class="block w-full p-3 pl-10 text-base text-gray-900 border border-gray-300 dark:text-slate-50 dark:border-none rounded-2xl bg-gray-50 dark:bg-slate-800"
+        placeholder="Search data"
+        [(ngModel)]="search"
+      />
+    </div>
+    <div class="w-full h-full bg-white shadow-xl dark:bg-slate-800 rounded-xl">
+      <div class="flex flex-col">
+        <div class="overflow-x-auto">
+          <div class="p-1.5 min-w-full inline-block align-middle">
+            <label for="my_modal_6">
+              <div class="overflow-hidden">
+                <table class="min-w-full">
+                  <thead>
+                    <tr>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                      >
+                        No
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                      >
+                        Name
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                      >
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <tr
+                      *ngFor="
+                        let item of product
+                          | filter : search
+                          | paginate : config
+                      "
+                      (click)="getDataProduct(item.id)"
+                      class="cursor-pointer dark:hover:bg-slate-700 hover:bg-gray-200"
+                    >
+                      <td
+                        class="px-6 py-4 text-sm font-medium text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                      >
+                        {{ item.index }}
+                      </td>
+                      <td
+                        class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                      >
+                        {{ item.name }}
+                      </td>
+                      <td
+                        class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap"
+                      >
+                        <div
+                          class="flex items-center justify-center gap-2 font-normal"
+                        >
+                          <div
+                            class="p-2 hover:scale-105 duration-300 shadow-xl bg-[#91C8E4] rounded-full tooltip"
+                            data-tip="Show Pattern"
+                          >
+                            <label
+                              for="my_modal_7"
+                              class="cursor-pointer"
+                              (click)="dataModal(item.id)"
+                            >
+                              <svg
+                                width="30"
+                                height="30"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M3 9H21M7 3V5M17 3V5M6 12H8M11 12H13M16 12H18M6 15H8M11 15H13M16 15H18M6 18H8M11 18H13M16 18H18M6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V8.2C21 7.07989 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.07989 21 6.2 21Z"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                />
+                              </svg>
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="flex items-center justify-center my-3">
+                  <pagination-template
+                    #p="paginationApi"
+                    [id]="config.id"
+                    (pageChange)="config.currentPage = $event"
+                  >
+                    <div class="flex gap-2 custom-pagination">
+                      <div class="pagination-previous">
+                        <!-- <span *ngIf="!p.isFirstPage()" (click)="p.previous()">
+                            <
+                          </span> -->
+                        <button
+                          (click)="p.previous()"
+                          [disabled]="p.isFirstPage()"
+                          [ngClass]="
+                            p.isFirstPage()
+                              ? 'text-gray-400 '
+                              : 'text-gray-700 dark:text-slate-900 hover:scale-105 active:scale-100 hover:bg-blue-100'
+                          "
+                          type="button"
+                          class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all duration-300 bg-white rounded-md shadow-sm dark:bg-slate-500"
+                        >
+                          <svg
+                            class="w-3 h-3"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                            />
+                          </svg>
+                          Prev
+                        </button>
+                      </div>
+                      <div
+                        class="page-number px-2.5 cursor-pointer flex items-center rounded-lg hover:bg-slate-100 dark:hover:text-slate-800 dark:text-slate-50 dark:hover:border-blue-100"
+                        [ngClass]="
+                          p.getCurrent() === page.value
+                            ? 'font-semibold border-blue-100 border-4  '
+                            : ''
+                        "
+                        *ngFor="let page of p.pages"
+                        [class.current]="p.getCurrent() === page.value"
+                        (click)="p.setCurrent(page.value)"
+                      >
+                        <h1 *ngIf="p.getCurrent() !== page.value">
+                          {{ page.label }}
+                        </h1>
+                        <div *ngIf="p.getCurrent() === page.value">
+                          <h1>{{ page.label }}</h1>
+                        </div>
+                      </div>
+                      <div class="pagination-next">
+                        <button
+                          (click)="p.next()"
+                          type="button"
+                          [disabled]="p.isLastPage()"
+                          [ngClass]="
+                            p.isLastPage()
+                              ? 'text-gray-400'
+                              : 'text-gray-700 dark:text-slate-900 hover:scale-105 active:scale-100 hover:bg-blue-100'
+                          "
+                          class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all bg-white rounded-md shadow-sm dark:bg-slate-500"
+                        >
+                          Next
+                          <svg
+                            class="w-3 h-3"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </pagination-template>
+                </div>
+              </div>
+              <!-- </div> -->
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type="checkbox" id="my_modal_7" class="modal-toggle" />
+  <div class="modal" *ngIf="productModal">
+    <div class="modal-box min-w-[95vw] dark:bg-slate-800">
+      <h3 class="mb-3 text-lg font-bold text-center dark:text-slate-50">
+        Pattern {{ productModal.name }}
+      </h3>
+      <table class="table table-s">
+        <thead>
+          <tr>
+            <th
+              class="bg-[#0B409C] dark:bg-[#27374D] text-white text-center rounded-tl-xl"
+            >
+              Suhu
+            </th>
+            <th
+              class="bg-[#0B409C] dark:bg-[#27374D] text-white text-center"
+              [ngClass]="last ? 'rounded-tr-xl' : ''"
+              *ngFor="let item of timelines; let last = last; index as i"
+            >
+              {{ item.time }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="text-center bg-blue-100">50<sup>o</sup>C</th>
+            <th
+              class="text-center bg-blue-100"
+              *ngFor="let itemT of timelines; index as i"
+            >
+              <div class="flex items-center justify-center">
+                <span *ngIf="hasMatchingSchedule(itemT.id, temp50)">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4 12.6111L8.92308 17.5L20 6.5"
+                      stroke="#000000"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span *ngIf="!hasMatchingSchedule(itemT.id, temp50)">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M5 7.5C5 7.22386 5.22386 7 5.5 7H9.5C9.77614 7 10 7.22386 10 7.5C10 7.77614 9.77614 8 9.5 8H5.5C5.22386 8 5 7.77614 5 7.5Z"
+                      fill="#000000"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <th class="text-center bg-blue-100">40<sup>o</sup>C</th>
+            <th
+              class="text-center bg-blue-100"
+              *ngFor="let itemT of timelines; index as i"
+            >
+              <div class="flex items-center justify-center">
+                <span *ngIf="hasMatchingSchedule(itemT.id, temp40)">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4 12.6111L8.92308 17.5L20 6.5"
+                      stroke="#000000"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span *ngIf="!hasMatchingSchedule(itemT.id, temp40)">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M5 7.5C5 7.22386 5.22386 7 5.5 7H9.5C9.77614 7 10 7.22386 10 7.5C10 7.77614 9.77614 8 9.5 8H5.5C5.22386 8 5 7.77614 5 7.5Z"
+                      fill="#000000"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <th class="text-center bg-blue-100 rounded-bl-xl">
+              30<sup>o</sup>C
+            </th>
+            <th
+              class="text-center bg-blue-100"
+              [ngClass]="isLast ? 'rounded-br-xl' : ''"
+              *ngFor="let itemT of timelines; index as i; last as isLast"
+            >
+              <div class="flex items-center justify-center">
+                <span *ngIf="hasMatchingSchedule(itemT.id, temp30)">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4 12.6111L8.92308 17.5L20 6.5"
+                      stroke="#000000"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span *ngIf="!hasMatchingSchedule(itemT.id, temp30)">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M5 7.5C5 7.22386 5.22386 7 5.5 7H9.5C9.77614 7 10 7.22386 10 7.5C10 7.77614 9.77614 8 9.5 8H5.5C5.22386 8 5 7.77614 5 7.5Z"
+                      fill="#000000"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </th>
+          </tr>
+        </tbody>
+      </table>
+      <div class="modal-action">
+        <label for="my_modal_7" class="btn">Close!</label>
+      </div>
+    </div>
+  </div>
+</div>

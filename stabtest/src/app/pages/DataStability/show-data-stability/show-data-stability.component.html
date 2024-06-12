@@ -1,0 +1,1703 @@
+<app-spinner></app-spinner>
+
+<!-- <div
+  *ngIf="alertMessage"
+  data-aos="fade-down"
+  data-aos-duration="2000"
+  class="fixed z-[999999999] flex justify-center lg:w-[75%] w-full"
+>
+  <div
+    class="flex justify-between px-8 py-6 text-white bg-yellow-400 rounded-2xl"
+  >
+    <div class="flex items-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="mr-6 h-7 w-7"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"
+        />
+      </svg>
+      <p>Warning! use <strong>dot (.)</strong> to state decimal value</p>
+    </div>
+    <button
+      class="text-yellow-100 hover:text-white"
+      (click)="alertMessage = false"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </div>
+</div> -->
+<div
+  class="z-[99999999] border-0 toast toast-top toast-end"
+  data-aos="fade-left"
+  data-aos-duration="500"
+>
+  <div
+    *ngIf="alert"
+    class="flex justify-between px-6 py-3 text-white bg-green-400 rounded-2xl"
+  >
+    <div class="flex items-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="mr-6 h-7 w-7"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"
+        />
+      </svg>
+      <p><strong>Success!</strong> {{ msg }}</p>
+    </div>
+    <button class="text-green-100 hover:text-white">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+<a
+  [attr.data-aos]="isAnimate ? 'fade-right' : null"
+  [attr.data-aos-duration]="isAnimate ? '500' : null"
+  routerLink="/data-stability/{{ paramsIndexData }}"
+  class="flex items-center justify-start gap-2 px-2 py-4 mb-3 duration-300 hover:bg-white dark:hover:bg-slate-800 dark:text-slate-50 hover:shadow-xl py4 w-fit rounded-xl hover:scale-105"
+>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M15 6L9 12L15 18"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+  Back
+</a>
+
+<div
+  class="flex justify-between"
+  [attr.data-aos]="isAnimate ? 'fade-down' : null"
+  [attr.data-aos-duration]="isAnimate ? '1000' : null"
+>
+  <div class="w-5 h-5"></div>
+  <h1
+    class="mt-2 mb-4 text-3xl font-bold text-center text-cBlue dark:text-slate-50"
+  >
+    Detail Stability Data
+  </h1>
+  <label
+    for="modal_logCalculation"
+    class="flex justify-center duration-300 cursor-pointer hover:scale-105 tooltip"
+    data-tip="History Calculation"
+    (click)="getLogCalculation(dataStability.id)"
+  >
+    <img src="assets/history.png" alt="" class="h-10" />
+  </label>
+</div>
+
+<div
+  data-aos="fade-down"
+  data-aos-duration="1000"
+  class="w-full px-4 pt-4 pb-2 shadow-xl card max-lg:w-full bg-base-100 dark:bg-slate-800 dark:text-slate-50"
+>
+  <div class="relative overflow-x-auto">
+    <table class="w-full">
+      <tbody class="text-start">
+        <tr class="border-b text-start">
+          <th
+            scope="row text-start "
+            class="px-6 py-[10px] font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap text-start"
+          >
+            Variant
+          </th>
+          <td class="px-6 py-[10px] text-start">:</td>
+          <td class="px-6 py-[10px] text-start">
+            ({{ dataStability?.Product.name | titlecase }}) -
+            {{ dataStability?.ProductDescription.Variant.name | titlecase }}
+          </td>
+          <th
+            scope="row"
+            class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap max-md:hidden"
+          >
+            Line
+          </th>
+          <td class="px-6 py-[10px] text-start max-md:hidden">:</td>
+          <td class="px-6 py-[10px] text-start max-md:hidden">
+            {{ dataStability?.Line.name }}
+          </td>
+        </tr>
+        <tr class="border-b text-start md:hidden">
+          <th
+            scope="row"
+            class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap"
+          >
+            Line
+          </th>
+          <td class="px-6 py-[10px] text-start">:</td>
+          <td class="px-6 py-[10px] text-start">
+            {{ dataStability?.Line.name }}
+          </td>
+        </tr>
+        <tr class="border-b">
+          <th
+            scope="row"
+            class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap"
+          >
+            Dev.Background
+          </th>
+          <td class="px-6 py-[10px] text-start">:</td>
+          <td class="px-6 py-[10px] text-start">
+            {{ dataStability?.description }}
+          </td>
+          <th
+            scope="row"
+            class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap max-md:hidden"
+          >
+            Section
+          </th>
+          <td class="px-6 py-[10px] text-start max-md:hidden">:</td>
+          <td class="px-6 py-[10px] text-start max-md:hidden">
+            {{ dataStability?.Section.name }}
+          </td>
+        </tr>
+        <tr class="border-b md:hidden">
+          <th
+            scope="row"
+            class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap"
+          >
+            Section
+          </th>
+          <td class="px-6 py-[10px] text-start">:</td>
+          <td class="px-6 py-[10px] text-start">
+            {{ dataStability?.Section.name }}
+          </td>
+        </tr>
+        <tr class="border-b">
+          <th
+            scope="row"
+            class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap"
+          >
+            PIC
+          </th>
+          <td class="px-6 py-[10px] text-start">:</td>
+          <td class="px-6 py-[10px] text-start">
+            {{ dataStability?.pic }}
+          </td>
+          <th
+            scope="row"
+            class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap max-md:hidden"
+          >
+            Lot Number
+          </th>
+          <td class="px-6 py-[10px] text-start max-md:hidden">:</td>
+          <td class="px-6 py-[10px] text-start max-md:hidden">
+            {{ dataStability?.lotNumber }}
+          </td>
+        </tr>
+        <tr class="border-b md:hidden">
+          <th
+            scope="row"
+            class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap"
+          >
+            Lot Number
+          </th>
+          <td class="px-6 py-[10px] text-start">:</td>
+          <td class="px-6 py-[10px] text-start">
+            {{ dataStability?.lotNumber }}
+          </td>
+        </tr>
+        <tr class="">
+          <th
+            scope="row"
+            class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap"
+          >
+            Date
+          </th>
+          <td class="px-6 py-[10px] text-start">:</td>
+          <td class="px-6 py-[10px] text-start">
+            {{ dataStability?.date | date : "dd MMMM yyyy" }}
+          </td>
+          <th
+            scope="row"
+            class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap max-md:hidden"
+          >
+            Dev Status
+          </th>
+          <td class="px-6 py-[10px] text-start max-md:hidden">:</td>
+          <td class="px-6 py-[10px] text-start max-md:hidden">
+            {{ dataStability?.status }}
+          </td>
+        </tr>
+        <tr class="md:hidden">
+          <th
+            scope="row"
+            class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap"
+          >
+            Dev Status
+          </th>
+          <td class="px-6 py-[10px] text-start">:</td>
+          <td class="px-6 py-[10px] text-start">
+            {{ dataStability?.status }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h1
+  class="my-4 mt-10 text-3xl font-bold text-center text-cBlue dark:text-slate-50"
+>
+  Detail Transaction
+</h1>
+
+<div class="flex items-center justify-between max-md:hidden">
+  <div class="relative w-1/4" data-aos="fade-right" data-aos-duration="1000">
+    <div
+      class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+    >
+      <svg
+        class="w-4 h-4 text-gray-500 dark:text-gray-400"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 20 20"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+        />
+      </svg>
+    </div>
+    <input
+      type="search"
+      id="default-search"
+      class="block w-full p-3 pl-10 text-base text-gray-900 border border-gray-300 dark:text-slate-50 dark:border-none rounded-2xl bg-gray-50 dark:bg-slate-800"
+      placeholder="Search data"
+      [(ngModel)]="search"
+    />
+  </div>
+  <div class="flex items-center gap-4">
+    <button
+      (click)="export()"
+      data-aos="fade-left"
+      data-aos-duration="1000"
+      data-tip="Export to excel"
+      class="relative inline-block font-medium text-white rounded shadow-xl group tooltip"
+    >
+      <svg
+        width="40"
+        height="40"
+        viewBox="0 0 32 32"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="duration-300 hover:scale-105"
+      >
+        <rect x="8" y="2" width="24" height="28" rx="2" fill="#2FB776" />
+        <path
+          d="M8 23H32V28C32 29.1046 31.1046 30 30 30H10C8.89543 30 8 29.1046 8 28V23Z"
+          fill="url(#paint0_linear_87_7712)"
+        />
+        <rect x="20" y="16" width="12" height="7" fill="#229C5B" />
+        <rect x="20" y="9" width="12" height="7" fill="#27AE68" />
+        <path d="M8 4C8 2.89543 8.89543 2 10 2H20V9H8V4Z" fill="#1D854F" />
+        <rect x="8" y="9" width="12" height="7" fill="#197B43" />
+        <rect x="8" y="16" width="12" height="7" fill="#1B5B38" />
+        <path
+          d="M8 12C8 10.3431 9.34315 9 11 9H17C18.6569 9 20 10.3431 20 12V24C20 25.6569 18.6569 27 17 27H8V12Z"
+          fill="#000000"
+          fill-opacity="0.3"
+        />
+        <rect
+          y="7"
+          width="18"
+          height="18"
+          rx="2"
+          fill="url(#paint1_linear_87_7712)"
+        />
+        <path
+          d="M13 21L10.1821 15.9L12.8763 11H10.677L9.01375 14.1286L7.37801 11H5.10997L7.81787 15.9L5 21H7.19931L8.97251 17.6857L10.732 21H13Z"
+          fill="white"
+        />
+        <defs>
+          <linearGradient
+            id="paint0_linear_87_7712"
+            x1="8"
+            y1="26.5"
+            x2="32"
+            y2="26.5"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#163C27" />
+            <stop offset="1" stop-color="#2A6043" />
+          </linearGradient>
+          <linearGradient
+            id="paint1_linear_87_7712"
+            x1="0"
+            y1="16"
+            x2="18"
+            y2="16"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#185A30" />
+            <stop offset="1" stop-color="#176F3D" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </button>
+    <a
+      data-aos="fade-left"
+      data-aos-duration="1000"
+      routerLink="/data-stability/{{ paramsName }}/create-transaction/{{
+        params
+      }}"
+      class="px-5 py-2.5 relative rounded group text-white font-medium inline-block"
+    >
+      <span
+        class="absolute top-0 left-0 w-full h-full rounded opacity-50 filter blur-sm bg-gradient-to-br from-blue-600 to-blue-500"
+      ></span>
+      <span
+        class="h-full w-full inset-0 absolute mt-0.5 ml-0.5 bg-gradient-to-br filter group-active:opacity-0 rounded opacity-50 from-blue-600 to-blue-500"
+      ></span>
+      <span
+        class="absolute inset-0 w-full h-full transition-all duration-200 ease-out rounded shadow-xl bg-gradient-to-br filter group-active:opacity-0 group-hover:blur-sm from-blue-600 to-blue-500"
+      ></span>
+      <span
+        class="absolute inset-0 w-full h-full transition duration-200 ease-out rounded bg-gradient-to-br to-blue-600 from-blue-500"
+      ></span>
+      <span class="relative">Create</span>
+    </a>
+  </div>
+</div>
+<div class="flex items-center justify-between gap-3 md:hidden">
+  <div class="relative w-full">
+    <div
+      class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+    >
+      <svg
+        class="w-4 h-4 text-gray-500 dark:text-gray-400"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 20 20"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+        />
+      </svg>
+    </div>
+    <input
+      type="search"
+      id="default-search"
+      class="block w-full p-3 pl-10 text-base text-gray-900 border border-gray-300 dark:text-slate-50 dark:border-none rounded-2xl bg-gray-50 dark:bg-slate-800"
+      placeholder="Search data"
+      [(ngModel)]="search"
+    />
+  </div>
+  <div class="flex items-center gap-4">
+    <button
+      data-tip="Export to excel"
+      class="relative inline-block font-medium text-white rounded shadow-xl group tooltip"
+    >
+      <svg
+        width="40"
+        height="40"
+        viewBox="0 0 32 32"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="duration-300 hover:scale-105"
+      >
+        <rect x="8" y="2" width="24" height="28" rx="2" fill="#2FB776" />
+        <path
+          d="M8 23H32V28C32 29.1046 31.1046 30 30 30H10C8.89543 30 8 29.1046 8 28V23Z"
+          fill="url(#paint0_linear_87_7712)"
+        />
+        <rect x="20" y="16" width="12" height="7" fill="#229C5B" />
+        <rect x="20" y="9" width="12" height="7" fill="#27AE68" />
+        <path d="M8 4C8 2.89543 8.89543 2 10 2H20V9H8V4Z" fill="#1D854F" />
+        <rect x="8" y="9" width="12" height="7" fill="#197B43" />
+        <rect x="8" y="16" width="12" height="7" fill="#1B5B38" />
+        <path
+          d="M8 12C8 10.3431 9.34315 9 11 9H17C18.6569 9 20 10.3431 20 12V24C20 25.6569 18.6569 27 17 27H8V12Z"
+          fill="#000000"
+          fill-opacity="0.3"
+        />
+        <rect
+          y="7"
+          width="18"
+          height="18"
+          rx="2"
+          fill="url(#paint1_linear_87_7712)"
+        />
+        <path
+          d="M13 21L10.1821 15.9L12.8763 11H10.677L9.01375 14.1286L7.37801 11H5.10997L7.81787 15.9L5 21H7.19931L8.97251 17.6857L10.732 21H13Z"
+          fill="white"
+        />
+        <defs>
+          <linearGradient
+            id="paint0_linear_87_7712"
+            x1="8"
+            y1="26.5"
+            x2="32"
+            y2="26.5"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#163C27" />
+            <stop offset="1" stop-color="#2A6043" />
+          </linearGradient>
+          <linearGradient
+            id="paint1_linear_87_7712"
+            x1="0"
+            y1="16"
+            x2="18"
+            y2="16"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#185A30" />
+            <stop offset="1" stop-color="#176F3D" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </button>
+    <a
+      routerLink="/data-stability/{{ paramsName }}/create-transaction/{{
+        params
+      }}"
+      class="px-5 py-2.5 relative rounded group text-white font-medium inline-block"
+    >
+      <span
+        class="absolute top-0 left-0 w-full h-full rounded opacity-50 filter blur-sm bg-gradient-to-br from-blue-600 to-blue-500"
+      ></span>
+      <span
+        class="h-full w-full inset-0 absolute mt-0.5 ml-0.5 bg-gradient-to-br filter group-active:opacity-0 rounded opacity-50 from-blue-600 to-blue-500"
+      ></span>
+      <span
+        class="absolute inset-0 w-full h-full transition-all duration-200 ease-out rounded shadow-xl bg-gradient-to-br filter group-active:opacity-0 group-hover:blur-sm from-blue-600 to-blue-500"
+      ></span>
+      <span
+        class="absolute inset-0 w-full h-full transition duration-200 ease-out rounded bg-gradient-to-br to-blue-600 from-blue-500"
+      ></span>
+      <span class="relative">Create</span>
+    </a>
+  </div>
+</div>
+
+<div
+  class="mt-4"
+  [attr.data-aos]="isAnimate ? 'fade-up' : null"
+  [attr.data-aos-duration]="isAnimate ? '1000' : null"
+>
+  <div class="w-full h-full bg-white shadow-xl dark:bg-slate-800 rounded-xl">
+    <div class="flex flex-col">
+      <div class="-m-1.5 overflow-x-auto">
+        <div class="p-1.5 min-w-full inline-block align-middle">
+          <div class="overflow-hidden">
+            <table class="min-w-full">
+              <thead>
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    No
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Sample Age
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Checking Date
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Input date
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Parameter
+                  </th>
+
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Attachment Analysis
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Other Attachment
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tr
+                  *ngFor="
+                    let item of dataTransaction
+                      | filter : search
+                      | paginate : config;
+                    index as i
+                  "
+                >
+                  <td
+                    class="px-6 py-4 text-sm font-medium text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{ item.index }}
+                  </td>
+                  <td
+                    class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{ item.Event.Schedule.Timeline.time }}
+                    {{ item.Event.Schedule.Temperature.value }}
+                  </td>
+
+                  <td
+                    class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{ item.Event.date | date : "dd MMMM yyyy" }}
+                  </td>
+
+                  <td
+                    class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{ item.createdAt | date : "dd MMMM yyyy" }}
+                  </td>
+
+                  <td
+                    class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    <label
+                      for="modal_parameter"
+                      class="flex justify-center duration-300 cursor-pointer hover:scale-105 tooltip"
+                      data-tip="Checking Result"
+                      (click)="getDataModal(item.id)"
+                    >
+                      <img
+                        src="assets/list.png"
+                        alt=""
+                        class="w-10 shadow-xl rounded-xl"
+                      />
+                    </label>
+                  </td>
+                  <td
+                    class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    <div
+                      class="flex justify-center tooltip"
+                      data-tip="Attachment Analysis"
+                      *ngIf="item.attachmentAnalysis != null"
+                    >
+                      <a
+                        href="{{ item.urlAnalysis }}"
+                        target="_blank"
+                        class="duration-300 cursor-pointer hover:scale-105"
+                      >
+                        <img
+                          src="assets/pdf.png"
+                          alt=""
+                          class="w-10 shadow-xl rounded-xl"
+                        />
+                      </a>
+                    </div>
+                    <p *ngIf="item.attachmentAnalysis == null">-</p>
+                  </td>
+                  <td
+                    class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    <div
+                      class="flex justify-center tooltip"
+                      data-tip="Attachment Sensory"
+                      *ngIf="item.attachmentSensory != null"
+                    >
+                      <a
+                        href="{{ item.urlSensory }}"
+                        target="_blank"
+                        class="duration-300 cursor-pointer hover:scale-105"
+                      >
+                        <img
+                          src="assets/pdf.png"
+                          alt=""
+                          class="w-10 shadow-xl rounded-xl"
+                        />
+                      </a>
+                    </div>
+                    <p *ngIf="item.attachmentSensory == null">-</p>
+                  </td>
+
+                  <td
+                    class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap"
+                  >
+                    <div
+                      class="flex items-center justify-center gap-2 font-normal"
+                    >
+                      <div
+                        *ngIf="showIndex == item.id"
+                        class="duration-300 rounded-full shadow-xl cursor-pointer hover:scale-105 tooltip"
+                        data-tip="Edit Transaction Data"
+                      >
+                        <label
+                          for="modal_data"
+                          class="cursor-pointer"
+                          (click)="getDataModal(item.id)"
+                        >
+                          <img
+                            class="cursor-pointer"
+                            src="assets/doc.png"
+                            alt=""
+                            style="max-width: 48px; min-width: 48px"
+                          />
+                        </label>
+                      </div>
+                      <div
+                        *ngIf="showIndex == item.id"
+                        class="duration-300 rounded-full shadow-xl cursor-pointer hover:scale-105 tooltip"
+                        data-tip="Edit Attachments"
+                      >
+                        <label
+                          for="modal_edit"
+                          class="cursor-pointer"
+                          (click)="getDataModal(item.id)"
+                        >
+                          <img
+                            class="cursor-pointer"
+                            src="assets/attch.png"
+                            alt=""
+                            style="max-width: 48px; min-width: 48px"
+                          />
+                        </label>
+                      </div>
+                      <div
+                        *ngIf="showIndex != item.id"
+                        class="duration-300 rounded-full shadow-xl cursor-pointer hover:scale-105 tooltip"
+                        data-tip="Edit"
+                      >
+                        <img
+                          (click)="showIndex = item.id"
+                          class="cursor-pointer"
+                          src="assets/edit.png"
+                          alt=""
+                          style="max-width: 48px; min-width: 48px"
+                        />
+                      </div>
+                      <div
+                        class="duration-300 rounded-full shadow-xl cursor-pointer hover:scale-105 tooltip"
+                        data-tip="Delete"
+                      >
+                        <label
+                          for="modal_delete"
+                          class="cursor-pointer"
+                          (click)="getDataModalDelete(item.id)"
+                        >
+                          <img
+                            src="assets/delete.png"
+                            alt=""
+                            style="max-width: 48px; min-width: 48px"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="!dataTransaction?.length">
+                  <td colspan="8" class="py-4 text-center dark:text-slate-50">
+                    No Data Found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="flex items-center justify-center my-3">
+              <pagination-template
+                #p="paginationApi"
+                [id]="config.id"
+                (pageChange)="config.currentPage = $event"
+              >
+                <div class="flex gap-2 custom-pagination">
+                  <div class="pagination-previous">
+                    <!-- <span *ngIf="!p.isFirstPage()" (click)="p.previous()">
+                            <
+                          </span> -->
+                    <button
+                      (click)="p.previous()"
+                      [disabled]="p.isFirstPage()"
+                      [ngClass]="
+                        p.isFirstPage()
+                          ? 'text-gray-400 '
+                          : 'text-gray-700 dark:text-slate-900 hover:scale-105 active:scale-100 hover:bg-blue-100'
+                      "
+                      type="button"
+                      class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all duration-300 bg-white rounded-md shadow-sm dark:bg-slate-500"
+                    >
+                      <svg
+                        class="w-3 h-3"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                        />
+                      </svg>
+                      Prev
+                    </button>
+                  </div>
+                  <div
+                    class="page-number px-2.5 cursor-pointer flex items-center rounded-lg hover:bg-slate-100 dark:hover:text-slate-800 dark:text-slate-50 dark:hover:border-blue-100"
+                    [ngClass]="
+                      p.getCurrent() === page.value
+                        ? 'font-semibold border-blue-100 border-4  '
+                        : ''
+                    "
+                    *ngFor="let page of p.pages"
+                    [class.current]="p.getCurrent() === page.value"
+                    (click)="p.setCurrent(page.value)"
+                  >
+                    <h1 *ngIf="p.getCurrent() !== page.value">
+                      {{ page.label }}
+                    </h1>
+                    <div *ngIf="p.getCurrent() === page.value">
+                      <h1>{{ page.label }}</h1>
+                    </div>
+                  </div>
+                  <div class="pagination-next">
+                    <button
+                      (click)="p.next()"
+                      type="button"
+                      [disabled]="p.isLastPage()"
+                      [ngClass]="
+                        p.isLastPage()
+                          ? 'text-gray-400'
+                          : 'text-gray-700 dark:text-slate-900 hover:scale-105 active:scale-100 hover:bg-blue-100'
+                      "
+                      class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all bg-white rounded-md shadow-sm dark:bg-slate-500"
+                    >
+                      Next
+                      <svg
+                        class="w-3 h-3"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </pagination-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="hidden export" id="exportTable">
+  <h1 class="my-5 text-3xl font-bold text-center text-cBlue dark:text-slate-50">
+    Detail Stability Data
+  </h1>
+
+  <div
+    class="w-full px-4 pt-4 pb-2 shadow-xl card max-lg:w-full bg-base-100 dark:bg-slate-800 dark:text-slate-50"
+  >
+    <div class="relative overflow-x-auto">
+      <table class="w-full">
+        <tbody class="text-start">
+          <tr class="border-b text-start">
+            <th
+              scope="row text-start "
+              class="px-6 py-[10px] font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap text-start"
+            >
+              Variant
+            </th>
+            <td class="px-6 py-[10px] text-start">:</td>
+            <td class="px-6 py-[10px] text-start">
+              ({{ dataStability?.Product.name | titlecase }}) -
+              {{ dataStability?.ProductDescription.Variant.name | titlecase }}
+            </td>
+            <th
+              scope="row"
+              class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap max-md:hidden"
+            >
+              Line
+            </th>
+            <td class="px-6 py-[10px] text-start max-md:hidden">:</td>
+            <td class="px-6 py-[10px] text-start max-md:hidden">
+              {{ dataStability?.Line.name }}
+            </td>
+          </tr>
+          <tr class="border-b text-start md:hidden">
+            <th
+              scope="row"
+              class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap"
+            >
+              Line
+            </th>
+            <td class="px-6 py-[10px] text-start">:</td>
+            <td class="px-6 py-[10px] text-start">
+              {{ dataStability?.Line.name }}
+            </td>
+          </tr>
+          <tr class="border-b">
+            <th
+              scope="row"
+              class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap"
+            >
+              Dev.Background
+            </th>
+            <td class="px-6 py-[10px] text-start">:</td>
+            <td class="px-6 py-[10px] text-start">
+              {{ dataStability?.description }}
+            </td>
+            <th
+              scope="row"
+              class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap max-md:hidden"
+            >
+              Section
+            </th>
+            <td class="px-6 py-[10px] text-start max-md:hidden">:</td>
+            <td class="px-6 py-[10px] text-start max-md:hidden">
+              {{ dataStability?.Section.name }}
+            </td>
+          </tr>
+          <tr class="border-b md:hidden">
+            <th
+              scope="row"
+              class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap"
+            >
+              Section
+            </th>
+            <td class="px-6 py-[10px] text-start">:</td>
+            <td class="px-6 py-[10px] text-start">
+              {{ dataStability?.Section.name }}
+            </td>
+          </tr>
+          <tr class="border-b">
+            <th
+              scope="row"
+              class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap"
+            >
+              PIC
+            </th>
+            <td class="px-6 py-[10px] text-start">:</td>
+            <td class="px-6 py-[10px] text-start">
+              {{ dataStability?.pic }}
+            </td>
+            <th
+              scope="row"
+              class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap max-md:hidden"
+            >
+              Lot Number
+            </th>
+            <td class="px-6 py-[10px] text-start max-md:hidden">:</td>
+            <td class="px-6 py-[10px] text-start max-md:hidden">
+              {{ dataStability?.lotNumber }}
+            </td>
+          </tr>
+          <tr class="border-b md:hidden">
+            <th
+              scope="row"
+              class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap"
+            >
+              Lot Number
+            </th>
+            <td class="px-6 py-[10px] text-start">:</td>
+            <td class="px-6 py-[10px] text-start">
+              {{ dataStability?.lotNumber }}
+            </td>
+          </tr>
+          <tr class="">
+            <th
+              scope="row"
+              class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap"
+            >
+              Date
+            </th>
+            <td class="px-6 py-[10px] text-start">:</td>
+            <td class="px-6 py-[10px] text-start">
+              {{ dataStability?.date | date : "dd MMMM yyyy" }}
+            </td>
+            <th
+              scope="row"
+              class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap max-md:hidden"
+            >
+              Dev Status
+            </th>
+            <td class="px-6 py-[10px] text-start max-md:hidden">:</td>
+            <td class="px-6 py-[10px] text-start max-md:hidden">
+              {{ dataStability?.status }}
+            </td>
+          </tr>
+          <tr class="md:hidden">
+            <th
+              scope="row"
+              class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap"
+            >
+              Dev Status
+            </th>
+            <td class="px-6 py-[10px] text-start">:</td>
+            <td class="px-6 py-[10px] text-start">
+              {{ dataStability?.status }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h1
+    class="my-4 mt-10 text-3xl font-bold text-center text-cBlue dark:text-slate-50"
+  >
+    Detail Transaction
+  </h1>
+
+  <div class="w-full my-5 bg-white shadow-xl dark:bg-slate-800 rounded-xl">
+    <div class="flex flex-col">
+      <div class="-m-1.5 overflow-x-auto">
+        <div class="p-1.5 min-w-full inline-block align-middle">
+          <div class="overflow-hidden">
+            <table class="min-w-full">
+              <thead>
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    No
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Sample Age
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Checking Date
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Input date
+                  </th>
+                  <ng-container *ngIf="dataTransaction?.TransactionDetails">
+                    <th
+                      *ngFor="
+                        let item of dataTransaction[0]?.TransactionDetails
+                      "
+                      scope="col"
+                      class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                    >
+                      {{ item?.Parameter?.name }}
+                    </th>
+                  </ng-container>
+
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Attachment Sensory
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase"
+                  >
+                    Attachment Analysis
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tr *ngFor="let item of dataTransaction">
+                  <td
+                    class="px-6 py-4 text-sm font-medium text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{ item.index }}
+                  </td>
+                  <td
+                    class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{ item.Event.Schedule.Timeline.time }}
+                    {{ item.Event.Schedule.Temperature.value }}
+                  </td>
+
+                  <td
+                    class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{ item.Event.date | date : "dd MMMM yyyy" }}
+                  </td>
+
+                  <td
+                    class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{ item.createdAt | date : "dd MMMM yyyy" }}
+                  </td>
+
+                  <td
+                    *ngFor="let params of item?.TransactionDetails"
+                    class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    {{ params?.value }}
+                  </td>
+                  <td
+                    class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    <div
+                      class="flex justify-center tooltip"
+                      data-tip="Attachment Sensory"
+                      *ngIf="item.attachmentSensory != null"
+                    >
+                      <a
+                        href="{{ item.urlSensory }}"
+                        target="_blank"
+                        class="duration-300 cursor-pointer hover:scale-105"
+                      >
+                        <img
+                          src="assets/pdf.png"
+                          alt=""
+                          class="w-10 shadow-xl rounded-xl"
+                        />
+                      </a>
+                    </div>
+                    <p *ngIf="item.attachmentSensory == null">-</p>
+                  </td>
+                  <td
+                    class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap dark:text-gray-200"
+                  >
+                    <div
+                      class="flex justify-center tooltip"
+                      data-tip="Attachment Analysis"
+                      *ngIf="item.attachmentAnalysis != null"
+                    >
+                      <a
+                        href="{{ item.urlAnalysis }}"
+                        target="_blank"
+                        class="duration-300 cursor-pointer hover:scale-105"
+                      >
+                        <img
+                          src="assets/pdf.png"
+                          alt=""
+                          class="w-10 shadow-xl rounded-xl"
+                        />
+                      </a>
+                    </div>
+                    <p *ngIf="item.attachmentAnalysis == null">-</p>
+                  </td>
+                </tr>
+                <tr *ngIf="!dataTransaction?.length">
+                  <td colspan="8" class="py-4 text-center dark:text-slate-50">
+                    No Data Found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input type="checkbox" id="modal_parameter" class="modal-toggle" />
+<div class="modal" *ngIf="dataModal">
+  <div
+    class="w-11/12 max-w-5xl max-h-[90vh] modal-box dark:bg-slate-800 dark:text-slate-50"
+  >
+    <div class="flex items-center justify-between">
+      <h3 class="text-lg font-bold">
+        Checking result for
+        {{ detailDataModal.Event.Schedule.Timeline.time }} in
+        {{ detailDataModal.Event.Schedule.Temperature.value }}
+      </h3>
+      <label
+        for="modal_parameter"
+        class="text-red-500 duration-300 rounded-full shadow-xl cursor-pointer hover:scale-105"
+      >
+        <svg
+          width="35"
+          height="35"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+          <path
+            d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+        </svg>
+      </label>
+    </div>
+    <div class="w-full h-full my-6">
+      <div class="grid grid-cols-3 gap-[15px]">
+        <div
+          class="w-full duration-300 ease-in-out shadow-xl card dark:bg-slate-700 dark:hover:scale-105"
+          *ngFor="let item of dataModal"
+        >
+          <label
+            for="modal_transaction"
+            (click)="getDataModalTransaction(item.id)"
+            class="cursor-pointer"
+          >
+            <div class="p-4 card-body">
+              <div class="">
+                <div class="flex items-center justify-between">
+                  <p>{{ item.Parameter.name }}</p>
+                  <p class="text-right">value</p>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span
+                    class="bg-gray-400 w-fit text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full"
+                    >{{ item.standard }}</span
+                  >
+                  <span
+                    class="bg-green-500 w-fit text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full"
+                    *ngIf="item.status == 'Passed'"
+                    >{{ item.status }}</span
+                  >
+                  <span
+                    class="bg-red-500 w-fit text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full"
+                    *ngIf="item.status == 'Failed'"
+                    >{{ item.status }}</span
+                  >
+                  <span
+                    class="bg-blue-500 w-fit text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full"
+                    *ngIf="item.status == 'Not Checked'"
+                    >{{ item.status }}</span
+                  >
+                  <p class="text-xl font-semibold text-end">{{ item.value }}</p>
+                </div>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<input type="checkbox" id="modal_logCalculation" class="modal-toggle" />
+<div class="modal" *ngIf="logCalculations">
+  <div
+    class="w-11/12 max-w-5xl max-h-[90vh] modal-box dark:bg-slate-800 dark:text-slate-50"
+  >
+    <div class="flex items-center justify-between">
+      <h3 class="text-lg font-bold">Calculation History</h3>
+      <label
+        for="modal_logCalculation"
+        class="text-red-500 duration-300 rounded-full shadow-xl cursor-pointer hover:scale-105"
+      >
+        <svg
+          width="35"
+          height="35"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+          <path
+            d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+        </svg>
+      </label>
+    </div>
+    <div class="w-full h-full my-6">
+      <div class="block overflow-x-auto">
+        <div class="inline-block min-w-full align-middle">
+          <div class="overflow-hidden border rounded-lg dark:border-gray-200">
+            <table
+              class="min-w-full divide-y divide-gray-200 dark:divide-gray-200"
+            >
+              <thead>
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-3 py-1 text-center border-r-2 text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    No
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-3 py-1 text-center border-r-2 text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    Parameter
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-3 py-1 text-center border-r-2 text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    Prediction 30&deg;C
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-3 py-1 text-center border-r-2 text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    Prediction 40&deg;C
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-3 py-1 text-center border-r-2 text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    Prediction 50&deg;C
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-3 py-1 text-center border-r-2 text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    Date
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-200">
+                <tr *ngFor="let item of logCalculations | paginate : configLog">
+                  <td
+                    class="px-3 py-1 border-r-2 border-b-2 text-sm text-center font-medium text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.index }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-r-2 border-b-2 text-sm text-center font-medium text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.Parameter.name }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-md font-bold text-center text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.res30 }} Month
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.res40 }} Month
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.res50 }} Month
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.createdAt | date : "dd MMMM yyyy" }}
+                  </td>
+                </tr>
+                <tr *ngIf="!logCalculations?.length">
+                  <td colspan="6" class="py-1 text-center dark:text-slate-50">
+                    No Data Found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex justify-center w-full"
+      *ngIf="logCalculations.length >= configLog.itemsPerPage"
+    >
+      <pagination-template
+        #p="paginationApi"
+        [id]="configLog.id"
+        (pageChange)="configLog.currentPage = $event"
+      >
+        <div class="flex gap-2 custom-pagination">
+          <div class="pagination-previous">
+            <!-- <span *ngIf="!p.isFirstPage()" (click)="p.previous()">
+                    <
+                  </span> -->
+            <button
+              (click)="p.previous()"
+              [disabled]="p.isFirstPage()"
+              [ngClass]="
+                p.isFirstPage()
+                  ? 'text-gray-400 '
+                  : 'text-gray-700 dark:text-slate-900 hover:scale-105 active:scale-100 hover:bg-blue-100'
+              "
+              type="button"
+              class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all duration-300 bg-white rounded-md shadow-sm dark:bg-slate-500"
+            >
+              <svg
+                class="w-3 h-3"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                />
+              </svg>
+              Prev
+            </button>
+          </div>
+          <div
+            class="page-number px-2.5 cursor-pointer flex items-center rounded-lg hover:bg-slate-100 dark:hover:text-slate-800 dark:text-slate-50 dark:hover:border-blue-100"
+            [ngClass]="
+              p.getCurrent() === page.value
+                ? 'font-semibold border-blue-100 border-4  '
+                : ''
+            "
+            *ngFor="let page of p.pages"
+            [class.current]="p.getCurrent() === page.value"
+            (click)="p.setCurrent(page.value)"
+          >
+            <h1 *ngIf="p.getCurrent() !== page.value">
+              {{ page.label }}
+            </h1>
+            <div *ngIf="p.getCurrent() === page.value">
+              <h1>{{ page.label }}</h1>
+            </div>
+          </div>
+          <div class="pagination-next">
+            <button
+              (click)="p.next()"
+              type="button"
+              [disabled]="p.isLastPage()"
+              [ngClass]="
+                p.isLastPage()
+                  ? 'text-gray-400'
+                  : 'text-gray-700 dark:text-slate-900 hover:scale-105 active:scale-100 hover:bg-blue-100'
+              "
+              class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all bg-white rounded-md shadow-sm dark:bg-slate-500"
+            >
+              Next
+              <svg
+                class="w-3 h-3"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </pagination-template>
+    </div>
+  </div>
+</div>
+
+<input type="checkbox" id="modal_delete" class="modal-toggle" />
+<div class="modal" *ngIf="dataDelete">
+  <div class="modal-box dark:bg-slate-800">
+    <h3 class="text-lg font-bold dark:text-slate-50">Alert!</h3>
+    <p class="py-4 text-xl dark:text-slate-50">
+      Are you sure delete <strong>{{ dataDelete.desc }}</strong
+      >?
+    </p>
+    <div class="modal-action">
+      <label
+        (click)="delete(dataDelete.id)"
+        for="modal_delete"
+        class="btn bg-[#DF2E38] hover:bg-[#C21010] border-0"
+        >Delete</label
+      >
+      <label
+        for="modal_delete"
+        class="btn border-0 bg-[#5D9C59] hover:bg-[#367E18]"
+        >Cancel</label
+      >
+    </div>
+  </div>
+</div>
+
+<input type="checkbox" id="modal_transaction" class="modal-toggle" />
+<div class="modal" *ngIf="dataModalTransaction">
+  <div class="modal-box dark:bg-slate-800 dark:text-slate-50">
+    <h3 class="text-lg font-bold">
+      Update data {{ dataModalTransaction.Parameter.name }} 
+    </h3>
+    <form [formGroup]="form">
+      <div class="flex items-center justify-between gap-3 mt-5">
+        <h1 class="text-lg">Current Value</h1>
+        <input
+          type="number"
+          placeholder="Type here"
+          class="block w-[200px] p-3 text-base text-gray-900 border border-gray-300 dark:text-slate-50 rounded-2xl bg-gray-50 dark:bg-slate-800"
+          formControlName="value"
+        />
+      </div>
+    </form>
+    <div class="modal-action">
+      <label
+        for="modal_transaction"
+        class="btn bg-[#5D9C59] hover:bg-[#367E18] border-0"
+        (click)="updateData()"
+        >Submit</label
+      >
+      <label
+        for="modal_transaction"
+        class="btn border-0 bg-[#DF2E38] hover:bg-[#CC3636]"
+        >Cancel</label
+      >
+    </div>
+  </div>
+</div>
+
+<input type="checkbox" id="modal_data" class="modal-toggle" />
+<div class="modal">
+  <div
+    class="w-full max-w-7xl modal-box dark:bg-slate-800 dark:text-slate-50"
+    *ngIf="selectedData"
+  >
+    <h3 class="text-lg font-bold">
+      Edit Transaction Data {{ detailDataModal?.Event?.Schedule?.Timeline?.time }} in
+      {{ detailDataModal?.Event?.Schedule?.Temperature?.value }}
+    </h3>
+    <form [formGroup]="formUpdate">
+      <div class="grid grid-cols-4 gap-3 max-md:grid-cols-2">
+        <div class="w-full form-control" *ngFor="let item of selectedData">
+          <label class="label">
+            <span class="label-text dark:text-slate-50">{{ item.name }}</span>
+          </label>
+          <input
+            formControlName="{{ item.id }}"
+            type="number"
+            placeholder="Input value {{ item.name }}"
+            class="w-full input input-bordered dark:bg-slate-800 dark:text-slate-50"
+          />
+        </div>
+      </div>
+    </form>
+    <div class="modal-action">
+      <label
+        for="modal_data"
+        class="btn bg-[#5D9C59] hover:bg-[#367E18] border-0"
+        (click)="updateWholeData(detailDataModal?.id)"
+        >Submit</label
+      >
+      <label
+        for="modal_data"
+        class="btn border-0 bg-[#DF2E38] hover:bg-[#CC3636]"
+        >Cancel</label
+      >
+    </div>
+  </div>
+</div>
+
+<input type="checkbox" id="modal_edit" class="modal-toggle" />
+<div class="modal" *ngIf="dataModal">
+  <div
+    class="w-11/12 max-w-5xl max-h-[90vh] modal-box dark:bg-slate-800 dark:text-slate-50"
+  >
+    <div class="flex items-center justify-between">
+      <h3 class="text-lg font-bold">
+        Detail data
+        {{ detailDataModal.Event.Schedule.Timeline.time }} in
+        {{ detailDataModal.Event.Schedule.Temperature.value }}
+      </h3>
+      <label
+        for="modal_edit"
+        class="text-red-500 duration-300 rounded-full shadow-xl cursor-pointer hover:scale-105"
+      >
+        <svg
+          width="35"
+          height="35"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+          <path
+            d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+        </svg>
+      </label>
+    </div>
+    <div class="w-full h-full my-6">
+      <div class="grid grid-cols-3 gap-[15px]">
+        <div class="text-center">
+          <h1>Sample Age</h1>
+          <h1 class="text-lg font-bold">
+            {{ detailDataModal.Event.Schedule.Timeline.time | titlecase }}
+            {{ detailDataModal.Event.Schedule.Temperature.value }}
+          </h1>
+        </div>
+        <div class="text-center">
+          <h1>Checking Date</h1>
+          <h1 class="text-lg font-bold">
+            {{ detailDataModal.Event.date | date : "dd MMMM yyyy" }}
+          </h1>
+        </div>
+        <div class="text-center">
+          <h1>Input Date</h1>
+          <h1 class="text-lg font-bold">
+            {{ detailDataModal.createdAt | date : "dd MMMM yyyy" }}
+          </h1>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-[15px] mt-10">
+        <div class="w-full form-control">
+          <div class="flex items-center justify-between mb-3">
+            <label class="label">
+              <span class="label-text dark:text-slate-50"
+                >Attachment Sensory
+              </span>
+            </label>
+            <div
+              class="flex justify-center tooltip"
+              data-tip="Attachment Sensory"
+              *ngIf="detailDataModal.attachmentSensory != null"
+            >
+              <a
+                href="{{ detailDataModal.urlSensory }}"
+                target="_blank"
+                class="duration-300 cursor-pointer hover:scale-105"
+              >
+                <img
+                  src="assets/pdf.png"
+                  alt=""
+                  class="w-10 shadow-xl rounded-xl"
+                />
+              </a>
+            </div>
+          </div>
+          <input
+            type="file"
+            class="w-full file-input file-input-bordered dark:border-gray-50 dark:bg-slate-800 dark:text-slate-50"
+            (change)="processAttachmentSensory($event)"
+          />
+        </div>
+        <div class="w-full form-control">
+          <div class="flex items-center justify-between mb-3">
+            <label class="label">
+              <span class="label-text dark:text-slate-50"
+                >Attachment Analysis
+              </span>
+            </label>
+            <div
+              class="flex justify-center tooltip"
+              data-tip="Attachment Analysis"
+              *ngIf="detailDataModal.attachmentAnalysis != null"
+            >
+              <a
+                href="{{ detailDataModal.urlAnalysis }}"
+                target="_blank"
+                class="duration-300 cursor-pointer hover:scale-105"
+              >
+                <img
+                  src="assets/pdf.png"
+                  alt=""
+                  class="w-10 shadow-xl rounded-xl"
+                />
+              </a>
+            </div>
+          </div>
+          <input
+            type="file"
+            class="w-full file-input file-input-bordered dark:border-gray-50 dark:bg-slate-800 dark:text-slate-50"
+            (change)="processattachmentAnalysis($event)"
+          />
+        </div>
+      </div>
+      <div class="modal-action">
+        <label
+          for="modal_edit"
+          class="btn bg-[#5D9C59] hover:bg-[#367E18] border-0"
+          (click)="updateDataStability()"
+          >Submit</label
+        >
+        <label
+          for="modal_edit"
+          class="btn border-0 bg-[#DF2E38] hover:bg-[#CC3636]"
+          >Cancel</label
+        >
+      </div>
+    </div>
+  </div>
+</div>

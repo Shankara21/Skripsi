@@ -1,0 +1,282 @@
+<app-spinner></app-spinner>
+<div
+  class="z-50 border-0 toast toast-top toast-end"
+  data-aos="fade-left"
+  data-aos-duration="500"
+>
+  <div
+    *ngIf="alert"
+    class="flex justify-between px-8 py-6 text-white bg-green-400 rounded-2xl"
+  >
+    <div class="flex items-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="mr-6 h-7 w-7"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"
+        />
+      </svg>
+      <p>{{ msg }}</p>
+    </div>
+    <button class="text-green-100 hover:text-white">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+<div class="">
+  <!-- Title -->
+  <h1
+    class="mt-2 mb-4 text-3xl font-bold text-center text-slate-800 dark:text-slate-50"
+    data-aos="fade-down"
+    data-aos-duration="1000"
+  >
+    List Parameter
+  </h1>
+  <div class="flex items-center justify-between my-3">
+    <div class="relative w-1/4" data-aos="fade-right" data-aos-duration="1000">
+      <div
+        class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+      >
+        <svg
+          class="w-4 h-4 text-gray-500 dark:text-gray-400"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 20 20"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+          />
+        </svg>
+      </div>
+      <input
+        type="search"
+        id="default-search"
+        class="block w-full p-3 pl-10 text-base text-gray-900 border border-gray-300 dark:text-slate-50 dark:border-none rounded-2xl bg-gray-50 dark:bg-slate-800"
+        placeholder="Search data"
+        [(ngModel)]="search"
+      />
+    </div>
+    <a
+      data-aos="fade-left"
+      data-aos-duration="1000"
+      routerLink="/master/parameter/create"
+      class="px-5 py-2.5 relative rounded group text-white font-medium inline-block"
+    >
+      <span
+        class="absolute top-0 left-0 w-full h-full rounded opacity-50 filter blur-sm bg-gradient-to-br from-blue-600 to-blue-500"
+      ></span>
+      <span
+        class="h-full w-full inset-0 absolute mt-0.5 ml-0.5 bg-gradient-to-br filter group-active:opacity-0 rounded opacity-50 from-blue-600 to-blue-500"
+      ></span>
+      <span
+        class="absolute inset-0 w-full h-full transition-all duration-200 ease-out rounded shadow-xl bg-gradient-to-br filter group-active:opacity-0 group-hover:blur-sm from-blue-600 to-blue-500"
+      ></span>
+      <span
+        class="absolute inset-0 w-full h-full transition duration-200 ease-out rounded bg-gradient-to-br to-blue-600 from-blue-500"
+      ></span>
+      <span class="relative">Create</span>
+    </a>
+  </div>
+
+  <div
+    class="overflow-x-auto rounded-xl"
+    data-aos="fade-up"
+    data-aos-duration="1000"
+  >
+    <table class="table w-full">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th class="bg-[#0B409C] dark:bg-[#27374D] text-white text-center">
+            No
+          </th>
+          <th class="bg-[#0B409C] dark:bg-[#27374D] text-white text-center">
+            Name
+          </th>
+          <th class="bg-[#0B409C] dark:bg-[#27374D] text-white text-center">
+            Action
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of data | filter : search | paginate : config">
+          <th class="text-center bg-blue-100">
+            {{ item.index }}
+          </th>
+          <th class="text-center bg-blue-100">
+            <span
+              class="cursor-pointer tooltip tooltip-right"
+              [attr.data-tip]="'id : (' + item.id + ')'"
+              >{{ item.name }}</span
+            >
+          </th>
+          <th class="text-center bg-blue-100">
+            <div class="flex items-center justify-center gap-2 font-normal">
+              <div class="rounded-full tooltip" data-tip="Edit">
+                <a routerLink="/master/parameter/{{ item.id }}" class="">
+                  <img
+                    src="assets/edit.png"
+                    alt=""
+                    class="w-10 duration-300 rounded-full shadow-2xl hover:scale-105"
+                  />
+                </a>
+              </div>
+              <div
+                class="rounded-full cursor-pointer tooltip"
+                data-tip="Delete"
+                (click)="getDataModal(item.id)"
+              >
+                <label for="my_modal_6" class="cursor-pointer">
+                  <img
+                    src="assets/delete.png"
+                    alt=""
+                    class="w-10 duration-300 rounded-full shadow-2xl hover:scale-105"
+                  />
+                </label>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+    <div class="animate-pulse" *ngIf="!data">
+      <div class="h-4 mt-3 mb-6 bg-gray-200 rounded"></div>
+      <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+      <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+      <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+      <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+    </div>
+  </div>
+  <div class="flex items-center justify-center mt-5">
+    <pagination-template
+      #p="paginationApi"
+      [id]="config.id"
+      (pageChange)="config.currentPage = $event"
+    >
+      <div class="flex gap-2 custom-pagination">
+        <div class="pagination-previous">
+          <!-- <span *ngIf="!p.isFirstPage()" (click)="p.previous()">
+                            <
+                          </span> -->
+          <button
+            (click)="p.previous()"
+            [disabled]="p.isFirstPage()"
+            [ngClass]="
+              p.isFirstPage()
+                ? 'text-gray-400 '
+                : 'text-gray-700 dark:text-slate-900 hover:scale-105 active:scale-100 hover:bg-blue-100'
+            "
+            type="button"
+            class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all duration-300 bg-white rounded-md shadow-sm dark:bg-slate-500"
+          >
+            <svg
+              class="w-3 h-3"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+              />
+            </svg>
+            Prev
+          </button>
+        </div>
+        <div
+          class="page-number px-2.5 cursor-pointer flex items-center rounded-lg hover:bg-slate-100 dark:hover:text-slate-800 dark:text-slate-50 dark:hover:border-blue-100"
+          [ngClass]="
+            p.getCurrent() === page.value
+              ? 'font-semibold border-blue-100 border-4  '
+              : ''
+          "
+          *ngFor="let page of p.pages"
+          [class.current]="p.getCurrent() === page.value"
+          (click)="p.setCurrent(page.value)"
+        >
+          <h1 *ngIf="p.getCurrent() !== page.value">
+            {{ page.label }}
+          </h1>
+          <div *ngIf="p.getCurrent() === page.value">
+            <h1>{{ page.label }}</h1>
+          </div>
+        </div>
+        <div class="pagination-next">
+          <button
+            (click)="p.next()"
+            type="button"
+            [disabled]="p.isLastPage()"
+            [ngClass]="
+              p.isLastPage()
+                ? 'text-gray-400'
+                : 'text-gray-700 dark:text-slate-900 hover:scale-105 active:scale-100 hover:bg-blue-100'
+            "
+            class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all bg-white rounded-md shadow-sm dark:bg-slate-500"
+          >
+            Next
+            <svg
+              class="w-3 h-3"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </pagination-template>
+  </div>
+</div>
+
+<input type="checkbox" id="my_modal_6" class="modal-toggle" />
+<div class="modal" *ngIf="dataModal">
+  <div class="modal-box dark:bg-slate-800">
+    <h3 class="text-lg font-bold dark:text-slate-50">Alert!</h3>
+    <p class="py-4 text-xl dark:text-slate-50">
+      Are you sure delete <strong>{{ dataModal.name }}</strong> Parameter?
+    </p>
+    <div class="modal-action">
+      <label
+        (click)="delete(dataModal.id)"
+        for="my_modal_6"
+        class="btn bg-[#DF2E38] hover:bg-[#C21010] border-0"
+        >Delete</label
+      >
+      <label
+        for="my_modal_6"
+        class="btn border-0 bg-[#5D9C59] hover:bg-[#367E18]"
+        >Cancel</label
+      >
+    </div>
+  </div>
+</div>

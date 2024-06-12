@@ -1,0 +1,21 @@
+<div [ngClass]="!(router.url == '/auth' || router.url == '/home' || router.url == '/forbidden') ? '' : ''">
+  <app-sidebar
+    *ngIf="!(router.url === '/auth' || router.url === '/home' || router.url == '/forbidden')"
+  ></app-sidebar>
+  <div
+    class="{{
+      !(router.url === '/auth' || router.url === '/home' || router.url == '/forbidden') &&
+        'md:ml-56 px-2 overflow-x-hidden h-screen flex flex-col justify-between'
+    }} "
+  >
+    <div *ngIf="!(router.url === '/auth' || router.url === '/home' || router.url == '/forbidden')">
+      <app-header></app-header>
+    </div>
+    <div class="flex-1 ">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer
+      *ngIf="!(router.url === '/auth' || router.url === '/home' || router.url == '/forbidden')"
+    ></app-footer>
+  </div>
+</div>

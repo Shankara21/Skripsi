@@ -1,0 +1,327 @@
+<app-spinner></app-spinner>
+<div
+  class="z-50 border-0 toast toast-top toast-end"
+  data-aos="fade-left"
+  data-aos-duration="500"
+>
+  <div
+    *ngIf="alert"
+    class="flex justify-between px-8 py-6 text-white bg-green-400 rounded-2xl"
+  >
+    <div class="flex items-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="mr-6 h-7 w-7"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"
+        />
+      </svg>
+      <p>{{ msg }}</p>
+    </div>
+    <button class="text-green-100 hover:text-white">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div class="text-3xl font-semibold text-center dark:text-slate-50">
+  List Products
+</div>
+<div class="flex items-center justify-between my-3">
+  <div class="relative w-1/4" data-aos="fade-right" data-aos-duration="1000">
+    <div
+      class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+    >
+      <svg
+        class="w-4 h-4 text-gray-500 dark:text-gray-400"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 20 20"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+        />
+      </svg>
+    </div>
+    <input
+      type="search"
+      id="default-search"
+      class="block w-full p-3 pl-10 text-base text-gray-900 border border-gray-300 dark:text-slate-50 dark:border-none rounded-2xl bg-gray-50 dark:bg-slate-800"
+      placeholder="Search data"
+      [(ngModel)]="search"
+    />
+  </div>
+</div>
+<div
+  class="overflow-x-auto rounded-xl"
+  data-aos="fade-up"
+  data-aos-duration="1000"
+>
+  <table class="table w-full">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th class="bg-[#0B409C] dark:bg-[#27374D] text-white text-center">
+          No
+        </th>
+        <th class="bg-[#0B409C] dark:bg-[#27374D] text-white text-center">
+          Product Name
+        </th>
+        <th class="bg-[#0B409C] dark:bg-[#27374D] text-white text-center">
+          Action
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data | filter : search | paginate : config">
+        <th class="text-center bg-blue-100">
+          {{ item.index }}
+        </th>
+        <th class="text-center bg-blue-100">
+          {{ item.name }}
+        </th>
+        <th class="text-center bg-blue-100">
+          <div class="flex items-center justify-center gap-2 font-normal">
+            <div class="rounded-lg tooltip" data-tip="Show Pattern">
+              <label
+                for="my_modal_6"
+                class="cursor-pointer"
+                (click)="dataModal(item.id)"
+              >
+                <img
+                  src="assets/clndr.png"
+                  alt=""
+                  class="w-10 duration-300 rounded-full shadow-2xl hover:scale-105"
+                />
+              </label>
+            </div>
+            <div class="rounded-lg tooltip" data-tip="Edit">
+              <a routerLink="/master/product/{{ item.id }}" class="">
+                <img
+                  src="assets/edit.png"
+                  alt=""
+                  class="w-10 duration-300 rounded-full shadow-2xl hover:scale-105"
+                />
+              </a>
+            </div>
+
+          </div>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+  <div class="animate-pulse" *ngIf="!data">
+    <div class="h-4 mt-3 mb-6 bg-gray-200 rounded"></div>
+    <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+    <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+    <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+    <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+  </div>
+</div>
+
+<input type="checkbox" id="my_modal_6" class="modal-toggle" />
+<div class="modal" *ngIf="product">
+  <div class="modal-box min-w-[95vw]">
+    <h3 class="mb-3 text-lg font-bold text-center">
+      Pattern {{ product.name }}
+    </h3>
+    <table class="table table-s">
+      <thead>
+        <tr>
+          <th
+            class="bg-[#0B409C] dark:bg-[#27374D] text-white text-center rounded-tl-xl"
+          >
+            Suhu
+          </th>
+          <th
+            class="bg-[#0B409C] dark:bg-[#27374D] text-white text-center"
+            [ngClass]="last ? 'rounded-tr-xl' : ''"
+            *ngFor="let item of timelines; let last = last; index as i"
+          >
+            {{ item.time }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th class="text-center bg-blue-100">50<sup>o</sup>C</th>
+          <th
+            class="text-center bg-blue-100"
+            *ngFor="let itemT of timelines; index as i"
+          >
+            <div class="flex items-center justify-center">
+              <span *ngIf="hasMatchingSchedule(itemT.id, temp50)">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4 12.6111L8.92308 17.5L20 6.5"
+                    stroke="#000000"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span *ngIf="!hasMatchingSchedule(itemT.id, temp50)">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 15 15"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M5 7.5C5 7.22386 5.22386 7 5.5 7H9.5C9.77614 7 10 7.22386 10 7.5C10 7.77614 9.77614 8 9.5 8H5.5C5.22386 8 5 7.77614 5 7.5Z"
+                    fill="#000000"
+                  />
+                </svg>
+              </span>
+            </div>
+          </th>
+        </tr>
+        <tr>
+          <th class="text-center bg-blue-100">40<sup>o</sup>C</th>
+          <th
+            class="text-center bg-blue-100"
+            *ngFor="let itemT of timelines; index as i"
+          >
+            <div class="flex items-center justify-center">
+              <span *ngIf="hasMatchingSchedule(itemT.id, temp40)">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4 12.6111L8.92308 17.5L20 6.5"
+                    stroke="#000000"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span *ngIf="!hasMatchingSchedule(itemT.id, temp40)">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 15 15"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M5 7.5C5 7.22386 5.22386 7 5.5 7H9.5C9.77614 7 10 7.22386 10 7.5C10 7.77614 9.77614 8 9.5 8H5.5C5.22386 8 5 7.77614 5 7.5Z"
+                    fill="#000000"
+                  />
+                </svg>
+              </span>
+            </div>
+          </th>
+        </tr>
+        <tr>
+          <th class="text-center bg-blue-100 rounded-bl-xl">30<sup>o</sup>C</th>
+          <th
+            class="text-center bg-blue-100"
+            [ngClass]="isLast ? 'rounded-br-xl' : ''"
+            *ngFor="let itemT of timelines; index as i; last as isLast"
+          >
+            <div class="flex items-center justify-center">
+              <span *ngIf="hasMatchingSchedule(itemT.id, temp30)">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4 12.6111L8.92308 17.5L20 6.5"
+                    stroke="#000000"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span *ngIf="!hasMatchingSchedule(itemT.id, temp30)">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 15 15"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M5 7.5C5 7.22386 5.22386 7 5.5 7H9.5C9.77614 7 10 7.22386 10 7.5C10 7.77614 9.77614 8 9.5 8H5.5C5.22386 8 5 7.77614 5 7.5Z"
+                    fill="#000000"
+                  />
+                </svg>
+              </span>
+            </div>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+    <div class="modal-action">
+      <label for="my_modal_6" class="btn">Close!</label>
+    </div>
+  </div>
+</div>
+
+<input type="checkbox" id="my_modal_7" class="modal-toggle" />
+<div class="modal" *ngIf="productModal">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold">Delete!</h3>
+    <p class="py-4">
+      Are you sure want to delete
+      <strong>{{ productModal.name }}</strong> product?
+    </p>
+    <div class="modal-action">
+      <label
+        for="my_modal_7"
+        (click)="deleteProduct(productModal.id)"
+        class="btn border-0 bg-[#5D9C59] hover:bg-[#367E18]"
+        >Save</label
+      >
+      <label
+        for="my_modal_7"
+        class="btn bg-[#DF2E38] hover:bg-[#C21010] border-0"
+        >Cancel</label
+      >
+    </div>
+  </div>
+</div>

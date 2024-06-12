@@ -1,0 +1,1226 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="large"
+  color="#fff"
+  type="ball-atom"
+  color="white"
+  [fullScreen]="true"
+>
+  <h1 class="text-lg text-white animate-pulse">Loading . . .</h1>
+</ngx-spinner>
+
+<div
+  class="w-full p-4 mt-3 mb-10 bg-white shadow-xl rounded-xl dark:bg-slate-800"
+>
+  <div class="flex flex-wrap-reverse">
+    <div class="flex flex-col w-[90%] max-lg:w-full">
+      <div class="flex items-center justify-between w-full">
+        <div class="flex items-center gap-2 mb-3">
+          <label
+            for="input-name"
+            class="font-semibold cursor-pointer dark:text-slate-50"
+            >Year</label
+          >
+          <select
+            [(ngModel)]="filterPs"
+            class="shadow-xl w-fit max-lg:w-1/4 dark:bg-slate-800 dark:text-slate-50 select"
+          >
+            <option value="{{ item }}" *ngFor="let item of listYear">
+              {{ item }}
+            </option>
+          </select>
+        </div>
+        <h1
+          class="flex-1 text-2xl font-bold text-center uppercase text-cBlue dark:text-slate-50"
+        >
+          <!-- Pocari Sweat -->
+          Isotonic Drink
+        </h1>
+      </div>
+      <div class="overflow-x-auto">
+        <div class="inline-block min-w-full align-middle">
+          <div class="overflow-hidden border rounded-lg dark:border-gray-200">
+            <table
+              class="min-w-full divide-y divide-gray-200 dark:divide-gray-200"
+            >
+              <thead>
+                <tr>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 text-center border-r-2 text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    No
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 text-center border-x-2 text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    Variant
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 text-center border-x-2 text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B] hidden"
+                  >
+                    Date
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 text-center border-x-2 text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B] hidden"
+                  >
+                    Created At
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 text-center border-x-2 text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    Development
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 text-center border-x-2 text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    Lot Number
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 text-center border-x-2 text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    Status
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 text-center border-x-2 text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    0
+                  </th>
+                  <th
+                    [attr.colspan]="headingPs?.temp50"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    50<sup>o</sup>C
+                  </th>
+                  <th
+                    [attr.colspan]="headingPs?.temp40"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    40<sup>o</sup>C
+                  </th>
+                  <th
+                    [attr.colspan]="headingPs?.temp30"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    30<sup>o</sup>C
+                  </th>
+                </tr>
+                <tr>
+                  <th
+                    *ngFor="let item of headingPs?.schedule"
+                    scope="col"
+                    class="px-3 py-1 border-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    {{ item.value }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-200">
+                <tr
+                  *ngFor="
+                    let item of ps | paginate : configPs | filter : filterPs
+                  "
+                >
+                  <td
+                    class="px-3 py-1 border-r-2 border-b-2 text-sm text-center font-medium text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.index }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.ProductDescription.Variant.name }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200 hidden"
+                  >
+                    {{ item.date }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200 hidden"
+                  >
+                    {{ item.createdAt }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.description }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.lotNumber }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-center text-sm text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    <span
+                      *ngIf="item.status == 'On Progress'"
+                      class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300"
+                    >
+                      Progress
+                    </span>
+                    <span
+                      *ngIf="item.status == 'Canceled'"
+                      class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300"
+                    >
+                      Canceled
+                    </span>
+                    <span
+                      *ngIf="item.status == 'Done'"
+                      class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
+                    >
+                      Done
+                    </span>
+                  </td>
+                  <td
+                    *ngFor="let event of item.schedule"
+                    class="px-3 py-1 border-x-2 border-b-2  {{
+                      event.status == 'Done' && 'bg-[#9E9FA5]'
+                    }}  text-xs text-gray-800  dark:text-gray-200"
+                  >
+                    {{ event.date | date : "d.M.yy" }}
+                  </td>
+                </tr>
+              </tbody>
+              <tbody
+                *ngIf="ps?.length == 0"
+                class="divide-y divide-gray-200 dark:divide-gray-200"
+              >
+                <tr>
+                  <td
+                    [attr.colspan]="headingPs?.totalRow"
+                    class="px-3 py-1 border-r-2 border-b-2 text-sm text-center font-medium text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    No data found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="animate-pulse" *ngIf="!ps">
+              <div class="h-4 mt-3 mb-6 bg-gray-200 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+            </div>
+          </div>
+          <div
+            class="flex items-center justify-center px-10 mt-5 overflow-hidden"
+          >
+            <pagination-template
+              #p="paginationApi"
+              [id]="configPs.id"
+              (pageChange)="configPs.currentPage = $event"
+            >
+              <div class="flex gap-2 custom-pagination">
+                <div class="pagination-previous">
+                  <button
+                    (click)="p.previous()"
+                    [disabled]="p.isFirstPage()"
+                    [ngClass]="
+                      p.isFirstPage()
+                        ? 'text-gray-400 '
+                        : 'text-gray-700 dark:text-slate-900 hover:scale-105 active:scale-100 hover:bg-blue-100'
+                    "
+                    type="button"
+                    class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all duration-300 bg-white rounded-md shadow-sm dark:bg-slate-500"
+                  >
+                    <svg
+                      class="w-3 h-3"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                      />
+                    </svg>
+                    Prev
+                  </button>
+                </div>
+                <div
+                  class="page-number px-2.5 cursor-pointer flex items-center rounded-lg hover:bg-slate-100 dark:hover:text-slate-800 dark:text-slate-50 dark:hover:border-blue-100"
+                  [ngClass]="
+                    p.getCurrent() === page.value
+                      ? 'font-semibold border-blue-100 border-4  '
+                      : ''
+                  "
+                  *ngFor="let page of p.pages"
+                  [class.current]="p.getCurrent() === page.value"
+                  (click)="p.setCurrent(page.value)"
+                >
+                  <h1 *ngIf="p.getCurrent() !== page.value">
+                    {{ page.label }}
+                  </h1>
+                  <div *ngIf="p.getCurrent() === page.value">
+                    <h1>{{ page.label }}</h1>
+                  </div>
+                </div>
+                <div class="pagination-next">
+                  <button
+                    (click)="p.next()"
+                    type="button"
+                    [disabled]="p.isLastPage()"
+                    [ngClass]="
+                      p.isLastPage()
+                        ? 'text-gray-400'
+                        : 'text-gray-700 dark:text-slate-900 hover:scale-105 duration-300 active:scale-100 hover:bg-blue-100'
+                    "
+                    class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all bg-white rounded-md shadow-sm dark:bg-slate-500"
+                  >
+                    Next
+                    <svg
+                      class="w-3 h-3"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </pagination-template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-[10%] max-lg:flex max-lg:justify-center max-lg:w-full">
+      <div class="flex items-center justify-center w-full h-full">
+        <img src="assets/isotonicDrink.png" class="h-[225px]" alt="" />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="w-full p-4 mb-10 bg-white shadow-xl rounded-xl dark:bg-slate-800">
+  <div class="flex flex-wrap-reverse">
+    <div class="flex flex-col w-[90%] max-lg:w-full">
+      <div class="overflow-x-auto">
+        <div class="inline-block min-w-full align-middle">
+          <div class="flex items-center justify-between w-full">
+            <div class="flex items-center gap-2 mb-3">
+              <label
+                for="input-name"
+                class="font-semibold cursor-pointer dark:text-slate-50"
+                >Year</label
+              >
+              <select
+                [(ngModel)]="filterPsiw"
+                class="shadow-xl w-fit max-lg:w-1/4 dark:bg-slate-800 dark:text-slate-50 select"
+              >
+                <option value="{{ item }}" *ngFor="let item of listYear">
+                  {{ item }}
+                </option>
+              </select>
+            </div>
+            <h1
+              class="flex-1 text-2xl font-bold text-center uppercase text-cBlue dark:text-slate-50"
+            >
+              Isotonic Water
+            </h1>
+          </div>
+          <div class="overflow-hidden border rounded-lg dark:border-gray-200">
+            <table
+              class="min-w-full divide-y divide-gray-200 dark:divide-gray-200"
+            >
+              <thead>
+                <tr>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-r-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#75C2F6]"
+                  >
+                    No
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#75C2F6]"
+                  >
+                    Variant
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#75C2F6]"
+                  >
+                    Development
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#75C2F6]"
+                  >
+                    Lot Number
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#75C2F6]"
+                  >
+                    Status
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 text-center border-x-2 text-xs font-medium text-slate-50 uppercase bg-[#75C2F6]"
+                  >
+                    0
+                  </th>
+                  <th
+                    [attr.colspan]="headingPsiw?.temp50"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#75C2F6]"
+                  >
+                    50<sup>o</sup>C
+                  </th>
+                  <th
+                    [attr.colspan]="headingPsiw?.temp40"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#75C2F6]"
+                  >
+                    40<sup>o</sup>C
+                  </th>
+                  <th
+                    [attr.colspan]="headingPsiw?.temp30"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#75C2F6]"
+                  >
+                    30<sup>o</sup>C
+                  </th>
+                </tr>
+                <tr>
+                  <th
+                    *ngFor="let item of headingPsiw?.schedule"
+                    scope="col"
+                    class="px-3 py-1 border-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#75C2F6]"
+                  >
+                    {{ item.value }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-200">
+                <tr
+                  *ngFor="
+                    let item of psiw
+                      | paginate : configPsiw
+                      | filter : filterPsiw
+                  "
+                >
+                  <td
+                    class="px-3 py-1 border-r-2 border-b-2 text-sm text-center font-medium text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.index }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.ProductDescription.Variant.name }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.description }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.lotNumber }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-center text-sm text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    <span
+                      *ngIf="item.status == 'On Progress'"
+                      class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300"
+                    >
+                      Progress
+                    </span>
+                    <span
+                      *ngIf="item.status == 'Canceled'"
+                      class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300"
+                    >
+                      Canceled
+                    </span>
+                    <span
+                      *ngIf="item.status == 'Done'"
+                      class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
+                    >
+                      Done
+                    </span>
+                  </td>
+                  <td
+                    *ngFor="let event of item.schedule"
+                    class="px-3 py-1 border-x-2 border-b-2  {{
+                      event.status == 'Done' && 'bg-[#9E9FA5]'
+                    }}  text-xs text-gray-800  dark:text-gray-200"
+                  >
+                    {{ event.date | date : "d.M.yy" }}
+                  </td>
+                </tr>
+              </tbody>
+              <tbody
+                *ngIf="psiw?.length == 0"
+                class="divide-y divide-gray-200 dark:divide-gray-200"
+              >
+                <tr>
+                  <td
+                    [attr.colspan]="headingPsiw?.totalRow"
+                    class="px-3 py-1 border-r-2 border-b-2 text-sm text-center font-medium text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    No data found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="animate-pulse" *ngIf="!psiw">
+              <div class="h-4 mt-3 mb-6 bg-gray-200 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+            </div>
+          </div>
+          <div
+            class="flex items-center justify-center px-10 mt-5 overflow-hidden"
+          >
+            <pagination-template
+              #Psiw="paginationApi"
+              [id]="configPsiw.id"
+              (pageChange)="configPsiw.currentPage = $event"
+            >
+              <div class="flex gap-2 custom-pagination">
+                <div class="pagination-previous">
+                  <button
+                    (click)="Psiw.previous()"
+                    [disabled]="Psiw.isFirstPage()"
+                    [ngClass]="
+                      Psiw.isFirstPage()
+                        ? 'text-gray-400 '
+                        : 'text-gray-700 dark:text-slate-900 hover:scale-105 active:scale-100 hover:bg-blue-100'
+                    "
+                    type="button"
+                    class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all duration-300 bg-white rounded-md shadow-sm dark:bg-slate-500"
+                  >
+                    <svg
+                      class="w-3 h-3"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                      />
+                    </svg>
+                    Prev
+                  </button>
+                </div>
+                <div
+                  class="page-number px-2.5 cursor-pointer flex items-center rounded-lg hover:bg-slate-100 dark:hover:text-slate-800 dark:text-slate-50 dark:hover:border-blue-100"
+                  [ngClass]="
+                    Psiw.getCurrent() === page.value
+                      ? 'font-semibold border-blue-100 border-4  '
+                      : ''
+                  "
+                  *ngFor="let page of Psiw.pages"
+                  [class.current]="Psiw.getCurrent() === page.value"
+                  (click)="Psiw.setCurrent(page.value)"
+                >
+                  <h1 *ngIf="Psiw.getCurrent() !== page.value">
+                    {{ page.label }}
+                  </h1>
+                  <div *ngIf="Psiw.getCurrent() === page.value">
+                    <h1>{{ page.label }}</h1>
+                  </div>
+                </div>
+                <div class="pagination-next">
+                  <button
+                    (click)="Psiw.next()"
+                    type="button"
+                    [disabled]="Psiw.isLastPage()"
+                    [ngClass]="
+                      Psiw.isLastPage()
+                        ? 'text-gray-400'
+                        : 'text-gray-700 dark:text-slate-900 hover:scale-105 duration-300 active:scale-100 hover:bg-blue-100'
+                    "
+                    class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all bg-white rounded-md shadow-sm dark:bg-slate-500"
+                  >
+                    Next
+                    <svg
+                      class="w-3 h-3"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </pagination-template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-[10%] max-lg:flex max-lg:justify-center max-lg:w-full">
+      <div class="flex items-center justify-center w-full h-full">
+        <img src="assets/isotonicWater.png" class="h-[225px]" alt="" />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="w-full p-4 mb-10 bg-white shadow-xl rounded-xl dark:bg-slate-800">
+  <div class="flex flex-wrap-reverse">
+    <div class="flex flex-col w-[90%] max-lg:w-full">
+      <div class="overflow-x-auto">
+        <div class="inline-block min-w-full align-middle">
+          <div class="flex items-center justify-between w-full">
+            <div class="flex items-center gap-2 mb-3">
+              <label
+                for="input-name"
+                class="font-semibold cursor-pointer dark:text-slate-50"
+                >Year</label
+              >
+              <select
+                [(ngModel)]="filterSoyjoy"
+                class="shadow-xl w-fit max-lg:w-1/4 dark:bg-slate-800 dark:text-slate-50 select"
+              >
+                <option value="{{ item }}" *ngFor="let item of listYear">
+                  {{ item }}
+                </option>
+              </select>
+            </div>
+            <h1
+              class="flex-1 text-2xl font-bold text-center uppercase text-cBlue dark:text-slate-50"
+            >
+              Snackbar
+            </h1>
+          </div>
+          <div class="overflow-hidden border rounded-lg dark:border-gray-200">
+            <table
+              class="min-w-full divide-y divide-gray-200 dark:divide-gray-200"
+            >
+              <thead>
+                <tr>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-r-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#4FA095]"
+                  >
+                    No
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#4FA095]"
+                  >
+                    Variant
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#4FA095] max-w-[300px] whitespace-normal"
+                  >
+                    Development
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#4FA095]"
+                  >
+                    Lot Number
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#4FA095]"
+                  >
+                    Status
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 text-center border-x-2 text-xs font-medium text-slate-50 uppercase bg-[#4FA095]"
+                  >
+                    0
+                  </th>
+                  <th
+                    [attr.colspan]="headingSoyjoy?.temp50"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#4FA095]"
+                  >
+                    50<sup>o</sup>C
+                  </th>
+                  <th
+                    [attr.colspan]="headingSoyjoy?.temp40"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#4FA095]"
+                  >
+                    40<sup>o</sup>C
+                  </th>
+                  <th
+                    [attr.colspan]="headingSoyjoy?.temp30"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#4FA095]"
+                  >
+                    30<sup>o</sup>C
+                  </th>
+                </tr>
+                <tr>
+                  <th
+                    *ngFor="let item of headingSoyjoy?.schedule"
+                    scope="col"
+                    class="px-3 py-1 border-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#4FA095]"
+                  >
+                    {{ item.value }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-200">
+                <tr
+                  *ngFor="
+                    let item of soyjoy
+                      | paginate : configSoyjoy
+                      | filter : filterSoyjoy
+                  "
+                >
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center font-medium text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.index }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.ProductDescription.Variant.name }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200 max-w-[300px] truncate"
+                  >
+                    {{ item.description }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.lotNumber }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    <span
+                      *ngIf="item.status == 'On Progress'"
+                      class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300"
+                    >
+                      Progress
+                    </span>
+                    <span
+                      *ngIf="item.status == 'Canceled'"
+                      class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300"
+                    >
+                      Canceled
+                    </span>
+                    <span
+                      *ngIf="item.status == 'Done'"
+                      class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
+                    >
+                      Done
+                    </span>
+                  </td>
+                  <td
+                    *ngFor="let event of item.schedule"
+                    class="px-3 py-1 border-x-2 border-b-2  {{
+                      event.status == 'Done' && 'bg-[#9E9FA5]'
+                    }}  text-xs text-gray-800  dark:text-gray-200"
+                  >
+                    {{ event.date | date : "d.M.yy" }}
+                  </td>
+                </tr>
+              </tbody>
+              <tbody
+                *ngIf="soyjoy?.length == 0"
+                class="divide-y divide-gray-200 dark:divide-gray-200"
+              >
+                <tr>
+                  <td
+                    [attr.colspan]="headingSoyjoy?.totalRow"
+                    class="px-3 py-1 border-r-2 border-b-2 text-sm text-center font-medium text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    No data found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="animate-pulse" *ngIf="!soyjoy">
+              <div class="h-4 mt-3 mb-6 bg-gray-200 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+            </div>
+          </div>
+          <div
+            class="flex items-center justify-center px-10 mt-5 overflow-hidden"
+          >
+            <pagination-template
+              #Soyjoy="paginationApi"
+              [id]="configSoyjoy.id"
+              (pageChange)="configSoyjoy.currentPage = $event"
+            >
+              <div class="flex gap-2 custom-pagination">
+                <div class="pagination-previous">
+                  <button
+                    (click)="Soyjoy.previous()"
+                    [disabled]="Soyjoy.isFirstPage()"
+                    [ngClass]="
+                      Soyjoy.isFirstPage()
+                        ? 'text-gray-400 '
+                        : 'text-gray-700 dark:text-slate-900 hover:scale-105 active:scale-100 hover:bg-blue-100'
+                    "
+                    type="button"
+                    class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all duration-300 bg-white rounded-md shadow-sm dark:bg-slate-500"
+                  >
+                    <svg
+                      class="w-3 h-3"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                      />
+                    </svg>
+                    Prev
+                  </button>
+                </div>
+                <div
+                  class="page-number px-2.5 cursor-pointer flex items-center rounded-lg hover:bg-slate-100 dark:hover:text-slate-800 dark:text-slate-50 dark:hover:border-blue-100"
+                  [ngClass]="
+                    Soyjoy.getCurrent() === page.value
+                      ? 'font-semibold border-blue-100 border-4  '
+                      : ''
+                  "
+                  *ngFor="let page of Soyjoy.pages"
+                  [class.current]="Soyjoy.getCurrent() === page.value"
+                  (click)="Soyjoy.setCurrent(page.value)"
+                >
+                  <h1 *ngIf="Soyjoy.getCurrent() !== page.value">
+                    {{ page.label }}
+                  </h1>
+                  <div *ngIf="Soyjoy.getCurrent() === page.value">
+                    <h1>{{ page.label }}</h1>
+                  </div>
+                </div>
+                <div class="pagination-next">
+                  <button
+                    (click)="Soyjoy.next()"
+                    type="button"
+                    [disabled]="Soyjoy.isLastPage()"
+                    [ngClass]="
+                      Psiw.isLastPage()
+                        ? 'text-gray-400'
+                        : 'text-gray-700 dark:text-slate-900 hover:scale-105 duration-300 active:scale-100 hover:bg-blue-100'
+                    "
+                    class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all bg-white rounded-md shadow-sm dark:bg-slate-500"
+                  >
+                    Next
+                    <svg
+                      class="w-3 h-3"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </pagination-template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-[10%] max-lg:flex max-lg:justify-center max-lg:w-full">
+      <div class="flex items-center justify-center w-full h-full">
+        <img src="assets/altsoyjoy.png" alt="" class="h-[245px] w-[75px]" />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="w-full p-4 bg-white shadow-xl rounded-xl dark:bg-slate-800">
+  <div class="flex flex-wrap-reverse">
+    <div class="flex flex-col w-[90%] max-lg:w-full">
+      <div class="overflow-x-auto">
+        <div class="inline-block min-w-full align-middle">
+          <div class="flex items-center justify-between w-full">
+            <div class="flex items-center gap-2 mb-3">
+              <label
+                for="input-name"
+                class="font-semibold cursor-pointer dark:text-slate-50"
+                >Year</label
+              >
+              <select
+                [(ngModel)]="filterNewProduct"
+                class="shadow-xl w-fit max-lg:w-1/4 dark:bg-slate-800 dark:text-slate-50 select"
+              >
+                <option value="{{ item }}" *ngFor="let item of listYear">
+                  {{ item }}
+                </option>
+              </select>
+            </div>
+            <h1
+              class="flex-1 text-2xl font-bold text-center uppercase text-cBlue dark:text-slate-50"
+            >
+              New Product
+            </h1>
+          </div>
+          <div class="overflow-hidden border rounded-lg dark:border-gray-200">
+            <table
+              class="min-w-full divide-y divide-gray-200 dark:divide-gray-200"
+            >
+              <thead>
+                <tr>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-b-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#E55807]"
+                  >
+                    No
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#E55807]"
+                  >
+                    Variant
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#E55807]"
+                  >
+                    Development
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#E55807]"
+                  >
+                    Lot Number
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#E55807]"
+                  >
+                    Status
+                  </th>
+                  <th
+                    rowspan="2"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#E55807]"
+                  >
+                    0
+                  </th>
+                  <th
+                    [attr.colspan]="headingNewProduct?.temp50"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#E55807]"
+                  >
+                    50<sup>o</sup>C
+                  </th>
+                  <th
+                    [attr.colspan]="headingNewProduct?.temp40"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#E55807]"
+                  >
+                    40<sup>o</sup>C
+                  </th>
+                  <th
+                    [attr.colspan]="headingNewProduct?.temp30"
+                    scope="col"
+                    class="px-3 py-1 border-x-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#E55807]"
+                  >
+                    30<sup>o</sup>C
+                  </th>
+                </tr>
+                <tr>
+                  <th
+                    *ngFor="let item of headingNewProduct?.schedule"
+                    scope="col"
+                    class="px-3 py-1 border-2 text-center text-xs font-medium text-slate-50 uppercase bg-[#E55807]"
+                  >
+                    {{ item.value }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-200">
+                <tr
+                  *ngFor="
+                    let item of newProduct
+                      | paginate : configNewProduct
+                      | filter : filterNewProduct
+                  "
+                >
+                  <td
+                    class="px-3 py-1 border-r-2 border-b-2 text-sm text-center font-medium text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.index }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.ProductDescription.Variant.name }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200 whitespace-normal max-w-xs"
+                  >
+                    {{ item.description }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-sm text-center text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    {{ item.lotNumber }}
+                  </td>
+                  <td
+                    class="px-3 py-1 border-x-2 border-b-2 text-center text-sm text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    <span
+                      *ngIf="item.status == 'On Progress'"
+                      class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300"
+                    >
+                      Progress
+                    </span>
+                    <span
+                      *ngIf="item.status == 'Canceled'"
+                      class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300"
+                    >
+                      Canceled
+                    </span>
+                    <span
+                      *ngIf="item.status == 'Done'"
+                      class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
+                    >
+                      Done
+                    </span>
+                  </td>
+                  <td
+                    *ngFor="let event of item.schedule"
+                    class="px-3 py-1 border-x-2 border-b-2  {{
+                      event.status == 'Done' && 'bg-[#9E9FA5]'
+                    }}  text-xs text-gray-800  dark:text-gray-200"
+                  >
+                    {{ event.date | date : "d.M.yy" }}
+                  </td>
+                </tr>
+              </tbody>
+              <tbody
+                *ngIf="newProduct?.length == 0"
+                class="divide-y divide-gray-200 dark:divide-gray-200"
+              >
+                <tr>
+                  <td
+                    [attr.colspan]="headingNewProduct?.totalRow"
+                    class="px-3 py-1 border-r-2 border-b-2 text-sm text-center font-medium text-gray-800 bg-[] dark:text-gray-200"
+                  >
+                    No data found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div
+            class="flex items-center justify-center px-10 mt-5 overflow-hidden"
+          >
+            <pagination-template
+              #np="paginationApi"
+              [id]="configNewProduct.id"
+              (pageChange)="configNewProduct.currentPage = $event"
+            >
+              <div class="flex gap-2 custom-pagination">
+                <div class="pagination-previous">
+                  <button
+                    (click)="np.previous()"
+                    [disabled]="np.isFirstPage()"
+                    [ngClass]="
+                      np.isFirstPage()
+                        ? 'text-gray-400 '
+                        : 'text-gray-700 dark:text-slate-900 hover:scale-105 active:scale-100 hover:bg-blue-100'
+                    "
+                    type="button"
+                    class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all duration-300 bg-white rounded-md shadow-sm dark:bg-slate-500"
+                  >
+                    <svg
+                      class="w-3 h-3"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                      />
+                    </svg>
+                    Prev
+                  </button>
+                </div>
+                <div
+                  class="page-number px-2.5 cursor-pointer flex items-center rounded-lg hover:bg-slate-100 dark:hover:text-slate-800 dark:text-slate-50 dark:hover:border-blue-100"
+                  [ngClass]="
+                    np.getCurrent() === page.value
+                      ? 'font-semibold border-blue-100 border-4  '
+                      : ''
+                  "
+                  *ngFor="let page of np.pages"
+                  [class.current]="np.getCurrent() === page.value"
+                  (click)="np.setCurrent(page.value)"
+                >
+                  <h1 *ngIf="np.getCurrent() !== page.value">
+                    {{ page.label }}
+                  </h1>
+                  <div *ngIf="np.getCurrent() === page.value">
+                    <h1>{{ page.label }}</h1>
+                  </div>
+                </div>
+                <div class="pagination-next">
+                  <button
+                    (click)="np.next()"
+                    type="button"
+                    [disabled]="np.isLastPage()"
+                    [ngClass]="
+                      np.isLastPage()
+                        ? 'text-gray-400'
+                        : 'text-gray-700 dark:text-slate-900 hover:scale-105 duration-300 active:scale-100 hover:bg-blue-100'
+                    "
+                    class="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium align-middle transition-all bg-white rounded-md shadow-sm dark:bg-slate-500"
+                  >
+                    Next
+                    <svg
+                      class="w-3 h-3"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </pagination-template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-[10%] max-lg:flex max-lg:justify-center max-lg:w-full">
+      <div class="flex items-center justify-center w-full h-full">
+        <img src="assets/newProduct.png" alt="" class="h-[255px] w-[75px]" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="grid grid-cols-3 gap-4 mt-10 max-lg:grid-cols-2">
+  <div
+    class="p-10 bg-white shadow-xl dark:bg-slate-400 dark:text-slate-50 rounded-xl"
+  >
+    <div class="mb-5 font-bold text-center">Development Status</div>
+    <div class="flex items-center justify-center h-full">
+      <apx-chart
+        *ngIf="PieChartOptions"
+        [series]="PieChartOptions?.series"
+        [chart]="PieChartOptions?.chart"
+        [labels]="PieChartOptions?.labels"
+        [responsive]="PieChartOptions?.responsive"
+        [colors]="PieChartOptions?.colors"
+        [legend]="PieChartOptions?.legend"
+      ></apx-chart>
+    </div>
+  </div>
+  <div
+    class="p-5 bg-white shadow-xl dark:bg-slate-800 dark:text-slate-50 rounded-xl"
+  >
+    <div class="mb-5 font-bold text-center">Each Section Development</div>
+    <apx-chart
+      *ngIf="sectionDataOptions"
+      [series]="sectionDataOptions?.series"
+      [chart]="sectionDataOptions?.chart"
+      [dataLabels]="sectionDataOptions?.dataLabels"
+      [plotOptions]="sectionDataOptions?.plotOptions"
+      [yaxis]="sectionDataOptions?.yaxis"
+      [legend]="sectionDataOptions?.legend"
+      [fill]="sectionDataOptions?.fill"
+      [stroke]="sectionDataOptions?.stroke"
+      [tooltip]="sectionDataOptions?.tooltip"
+      [xaxis]="sectionDataOptions?.xaxis"
+    ></apx-chart>
+  </div>
+
+  <div
+    class="p-5 bg-white shadow-xl dark:bg-slate-800 dark:text-slate-50 rounded-xl"
+  >
+    <div class="mb-5 font-bold text-center">Yearly Development Quantity</div>
+    <apx-chart
+      *ngIf="yearlyDataOptions"
+      [series]="yearlyDataOptions?.series"
+      [chart]="yearlyDataOptions?.chart"
+      [dataLabels]="yearlyDataOptions?.dataLabels"
+      [plotOptions]="yearlyDataOptions?.plotOptions"
+      [yaxis]="yearlyDataOptions?.yaxis"
+      [legend]="yearlyDataOptions?.legend"
+      [fill]="yearlyDataOptions?.fill"
+      [stroke]="yearlyDataOptions?.stroke"
+      [tooltip]="yearlyDataOptions?.tooltip"
+      [xaxis]="yearlyDataOptions?.xaxis"
+      [colors]="yearlyDataOptions?.colors"
+    ></apx-chart>
+  </div>
+</div>

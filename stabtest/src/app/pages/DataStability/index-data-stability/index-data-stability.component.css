@@ -1,0 +1,25 @@
+.ttp {
+  position: relative;
+  display: inline-block;
+}
+
+.ttp .ttptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the ttp */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.ttp:hover .ttptext {
+  visibility: visible;
+}

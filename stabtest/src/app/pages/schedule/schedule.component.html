@@ -1,0 +1,637 @@
+<app-spinner></app-spinner>
+<div class="flex gap-2">
+  <div
+    class="flex flex-col w-1/5 gap-2 max-xl:hidden"
+    data-aos="fade-down-right"
+    data-aos-duration="1000"
+  >
+    <div class="flex-1 p-4 bg-white shadow-xl dark:bg-slate-800 rounded-xl">
+      <div class="flex items-center">
+        <h2 class="flex-auto font-semibold text-gray-900 dark:text-slate-50">
+          {{ firstDayCurrentMonth | date : "MMMM yyyy" }}
+        </h2>
+        <button
+          type="button"
+          (click)="previousMonth()"
+          class="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 dark:text-slate-50 hover:bg-gray-200 rounded-full dark:hover:text-slate-900"
+        >
+          <span class="sr-only">Previous month</span>
+
+          <svg
+            width="20px"
+            height="20px"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/1500/svg"
+          >
+            <polyline
+              fill="none"
+              id="Left"
+              points="15.5 5 8.5 12 15.5 19"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </button>
+        <button
+          (click)="nextMonth()"
+          type="button"
+          class="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 dark:text-slate-50 text-gray-400 hover:bg-gray-200 rounded-full dark:hover:text-slate-900"
+        >
+          <span class="sr-only">Next month</span>
+          <svg
+            width="20px"
+            height="20px"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            class=""
+          >
+            <polyline
+              fill="none"
+              id="Right"
+              points="8.5 5 15.5 12 8.5 19"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </button>
+      </div>
+      <div
+        class="grid grid-cols-7 mt-10 text-sm leading-6 text-center text-gray-500"
+      >
+        <div>Sun</div>
+        <div>Mon</div>
+        <div>Tue</div>
+        <div>Wed</div>
+        <div>Thu</div>
+        <div>Fri</div>
+        <div>Sat</div>
+      </div>
+      <div class="grid grid-cols-7 mt-2 text-lg">
+        <div
+          [ngClass]="
+            classNames(i === 0 && colStartClasses[getDay(item)], 'py-1.5')
+          "
+          *ngFor="let item of days; index as i"
+        >
+          <button
+            type="button"
+            (click)="setSelectedDay(item)"
+            [ngClass]="
+              classNames(
+                isEqual(item, selectedDay) && 'text-white',
+                !isEqual(item, selectedDay) &&
+                  isToday(item) &&
+                  'text-gray-900 dark:text-slate-50',
+                !isEqual(item, selectedDay) &&
+                  !isToday(item) &&
+                  isSameMonth(item, firstDayCurrentMonth) &&
+                  'text-gray-900 ',
+                !isEqual(item, selectedDay) &&
+                  !isToday(item) &&
+                  !isSameMonth(item, firstDayCurrentMonth) &&
+                  'text-gray-400',
+                isEqual(item, selectedDay) && isToday(item) && 'bg-red-500',
+                !isEqual(item, selectedDay) &&
+                  isToday(item) &&
+                  'border-[1px] border-gray-500',
+                isEqual(item, selectedDay) && !isToday(item) && 'bg-blue-900',
+                !isEqual(item, selectedDay) && 'hover:bg-gray-200 ',
+
+                (isEqual(item, selectedDay) || isToday(item)) &&
+                  'font-semibold',
+                isToday(item) && 'font-bold ',
+                'mx-auto flex h-8 w-8 items-center justify-center rounded-full'
+              )
+            "
+            class="{{
+              format(item, 'E') == 'Sun' || format(item, 'E') == 'Sat'
+                ? 'text-red-500'
+                : 'text-gray-900 dark:text-slate-50 dark:hover:text-gray-900'
+            }}"
+          >
+            <time [attr.dateTime]="format(item, 'yyyy-MM-dd')">
+              {{ format(item, "d") }}
+            </time>
+          </button>
+          <div class="w-1 h-1 mx-auto mt-1">
+            <div
+              *ngIf="isEventExist(item)"
+              class="w-1 h-1 rounded-full bg-sky-500"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex-auto overflow-hidden bg-white shadow-xl dark:bg-slate-800 rounded-xl max-h-80"
+      data-aos="fade-up-right"
+      data-aos-duration="1000"
+    >
+      <div class="h-full calendar">
+        <div class="flex items-center mt-2 ml-2">
+          <h2 class="flex-auto font-semibold text-gray-900 dark:text-slate-50">
+            Monthly Events
+          </h2>
+        </div>
+        <!-- <ul
+          class="max-w-md pl-4 pr-1 my-4 space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400"
+        >
+          <li *ngFor="let item of weekly">{{ item.description }}</li>
+        </ul>
+         -->
+        <div *ngIf="!isChart">
+          <div class="flex items-center justify-center w-full h-48">
+            <h2
+              class="text-xl font-semibold text-center text-gray-900 dark:text-slate-50"
+            >
+              No upcoming events 🎉
+            </h2>
+          </div>
+        </div>
+        <div *ngIf="isChart" class="p-2">
+          <apx-chart
+            *ngIf="chartOptions"
+            [series]="chartOptions?.series"
+            [chart]="chartOptions?.chart"
+            [labels]="chartOptions?.labels"
+            [fill]="chartOptions?.fill"
+            [dataLabels]="chartOptions?.dataLabels"
+            [legend]="chartOptions?.legend"
+            [responsive]="chartOptions?.responsive"
+            [colors]="chartOptions?.colors"
+            [plotOptions]="chartOptions?.plotOptions"
+          ></apx-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex-1 h-full bg-white shadow-xl dark:bg-slate-800 rounded-xl"
+    [attr.data-aos]="isAnimate ? 'fade-left' : null"
+    [attr.data-aos-duration]="isAnimate ? '1000' : null"
+  >
+    <div class="flex items-center justify-center gap-2 p-4">
+      <button
+        type="button"
+        (click)="previousMonth()"
+        class="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 dark:text-slate-50 hover:bg-gray-200 rounded-full dark:hover:text-slate-900"
+      >
+        <span class="sr-only">Previous month</span>
+
+        <svg
+          width="25px"
+          height="25px"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/1500/svg"
+        >
+          <polyline
+            fill="none"
+            id="Left"
+            points="15.5 5 8.5 12 15.5 19"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+      </button>
+      <h2 class="text-2xl font-semibold text-gray-900 dark:text-slate-50">
+        {{ firstDayCurrentMonth | date : "MMMM yyyy" }}
+      </h2>
+      <button
+        (click)="nextMonth()"
+        type="button"
+        class="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 dark:text-slate-50 text-gray-400 hover:bg-gray-200 rounded-full dark:hover:text-slate-900"
+      >
+        <span class="sr-only">Next month</span>
+        <svg
+          width="25px"
+          height="25px"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          class=""
+        >
+          <polyline
+            fill="none"
+            id="Right"
+            points="8.5 5 15.5 12 8.5 19"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      class="grid grid-cols-7 mt-10 text-sm leading-6 text-center text-gray-500"
+    >
+      <div>Sun</div>
+      <div>Mon</div>
+      <div>Tue</div>
+      <div>Wed</div>
+      <div>Thu</div>
+      <div>Fri</div>
+      <div>Sat</div>
+    </div>
+    <div class="grid grid-cols-7 gap-1.5 p-2 text-lg mb-5">
+      <div
+        [ngClass]="classNames(i === 0 && colStartClasses[getDay(item)], 'py-0')"
+        *ngFor="let item of days; index as i"
+      >
+        <div
+          class="w-full overflow-hidden bg-[#FAFAFA] rounded-lg shadow-xl hover:scale-110 duration-500 ease-in-out active:scale-100 dark:bg-slate-700"
+        >
+          <label for="my_modal_info" (click)="getDataModal(item)">
+            <div
+              [ngClass]="
+                classNames(
+                  isEqual(item, selectedDay) && '',
+                  !isEqual(item, selectedDay) &&
+                    isToday(item) &&
+                    'text-gray-900 dark:text-slate-50',
+                  !isEqual(item, selectedDay) &&
+                    !isToday(item) &&
+                    isSameMonth(item, firstDayCurrentMonth) &&
+                    'text-gray-900 ',
+                  !isEqual(item, selectedDay) &&
+                    !isToday(item) &&
+                    !isSameMonth(item, firstDayCurrentMonth) &&
+                    'text-gray-400',
+                  isEqual(item, selectedDay) &&
+                    isToday(item) &&
+                    'border-2 rounded-xl border-blue-900 text-blue-900 dark:text-blue-50 dark:border-slate-50',
+                  !isEqual(item, selectedDay) &&
+                    isToday(item) &&
+                    'border-[2px] rounded-xl border-gray-500',
+                  isEqual(item, selectedDay) &&
+                    !isToday(item) &&
+                    'bg-blue-900 text-white dark:text-cBlue dark:bg-slate-50 ',
+                  !isEqual(item, selectedDay) &&
+                    'hover:bg-gray-200 dark:hover:bg-slate-500 ',
+
+                  (isEqual(item, selectedDay) || isToday(item)) &&
+                    'font-semibold',
+                  isToday(item) && 'font-bold ',
+                  ''
+                )
+              "
+              class="{{
+                format(item, 'E') == 'Sun' || format(item, 'E') == 'Sat'
+                  ? 'text-red-500'
+                  : 'text-gray-900 dark:text-slate-50'
+              }}"
+              class="h-24 p-1 overflow-y-auto cursor-pointer calendar"
+            >
+              <time [attr.dateTime]="format(item, 'yyyy-MM-dd')">
+                {{ format(item, "d") }}
+              </time>
+              <div class="flex flex-wrap gap-3" *ngIf="isEventExist(item)">
+                <span
+                  *ngIf="checkPSIW(item) && isPSIW"
+                  class="relative inline-flex items-center p-1 text-sm font-medium text-center text-white bg-blue-300 rounded-lg hover:bg-blue-800"
+                >
+                  <svg
+                    fill="currentColor"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 50 50"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                  >
+                    <path
+                      d="M22 0C20.355469 0 19 1.355469 19 3L19 6C19 6.523438 19.183594 7.058594 19.5625 7.4375C19.84375 7.71875 20.203125 7.898438 20.59375 7.96875C20.445313 8.085938 20.261719 8.175781 20.03125 8.21875L20 8.21875C15.457031 9.214844 12 13.222656 12 18.09375L12 21C12 22.257813 12.890625 23.152344 14 23.59375L14 36.40625C12.890625 36.847656 12 37.742188 12 39L12 45C12 47.746094 14.253906 50 17 50L33 50C35.746094 50 38 47.746094 38 45L38 39C38 37.742188 37.109375 36.847656 36 36.40625L36 23.59375C37.109375 23.152344 38 22.257813 38 21L38 18.09375C38 13.222656 34.542969 9.214844 30 8.21875L29.96875 8.21875C29.738281 8.175781 29.554688 8.085938 29.40625 7.96875C29.796875 7.898438 30.15625 7.71875 30.4375 7.4375C30.816406 7.058594 31 6.523438 31 6L31 3C31 1.355469 29.644531 0 28 0 Z M 22 2L28 2C28.554688 2 29 2.445313 29 3L29 6L21 6L21 3C21 2.445313 21.445313 2 22 2 Z M 22.65625 8L27.34375 8C27.707031 9.046875 28.445313 9.929688 29.59375 10.15625L29.59375 10.1875C29.601563 10.1875 29.617188 10.1875 29.625 10.1875C33.269531 11 36 14.175781 36 18.09375L36 21C36 21.554688 35.554688 22 35 22L18 22L18 24L34 24L34 36L18 36L18 38L35 38C35.554688 38 36 38.445313 36 39L36 45C36 46.65625 34.65625 48 33 48L17 48C15.34375 48 14 46.65625 14 45L14 39C14 38.445313 14.445313 38 15 38L16 38L16 22L15 22C14.445313 22 14 21.554688 14 21L14 18.09375C14 14.175781 16.730469 11 20.375 10.1875C20.390625 10.183594 20.390625 10.160156 20.40625 10.15625C21.554688 9.929688 22.292969 9.046875 22.65625 8Z"
+                    />
+                  </svg>
+                  <span class="sr-only">Notifications</span>
+                  <div
+                    class="absolute inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2"
+                  >
+                    {{ psiwLength }}
+                  </div>
+                </span>
+                <span
+                  *ngIf="checkPS(item) && isPS"
+                  class="relative inline-flex items-center p-1 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800"
+                >
+                  <svg
+                    fill="currentColor"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 50 50"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                  >
+                    <path
+                      d="M22 0C20.355469 0 19 1.355469 19 3L19 6C19 6.523438 19.183594 7.058594 19.5625 7.4375C19.84375 7.71875 20.203125 7.898438 20.59375 7.96875C20.445313 8.085938 20.261719 8.175781 20.03125 8.21875L20 8.21875C15.457031 9.214844 12 13.222656 12 18.09375L12 21C12 22.257813 12.890625 23.152344 14 23.59375L14 36.40625C12.890625 36.847656 12 37.742188 12 39L12 45C12 47.746094 14.253906 50 17 50L33 50C35.746094 50 38 47.746094 38 45L38 39C38 37.742188 37.109375 36.847656 36 36.40625L36 23.59375C37.109375 23.152344 38 22.257813 38 21L38 18.09375C38 13.222656 34.542969 9.214844 30 8.21875L29.96875 8.21875C29.738281 8.175781 29.554688 8.085938 29.40625 7.96875C29.796875 7.898438 30.15625 7.71875 30.4375 7.4375C30.816406 7.058594 31 6.523438 31 6L31 3C31 1.355469 29.644531 0 28 0 Z M 22 2L28 2C28.554688 2 29 2.445313 29 3L29 6L21 6L21 3C21 2.445313 21.445313 2 22 2 Z M 22.65625 8L27.34375 8C27.707031 9.046875 28.445313 9.929688 29.59375 10.15625L29.59375 10.1875C29.601563 10.1875 29.617188 10.1875 29.625 10.1875C33.269531 11 36 14.175781 36 18.09375L36 21C36 21.554688 35.554688 22 35 22L18 22L18 24L34 24L34 36L18 36L18 38L35 38C35.554688 38 36 38.445313 36 39L36 45C36 46.65625 34.65625 48 33 48L17 48C15.34375 48 14 46.65625 14 45L14 39C14 38.445313 14.445313 38 15 38L16 38L16 22L15 22C14.445313 22 14 21.554688 14 21L14 18.09375C14 14.175781 16.730469 11 20.375 10.1875C20.390625 10.183594 20.390625 10.160156 20.40625 10.15625C21.554688 9.929688 22.292969 9.046875 22.65625 8Z"
+                    />
+                  </svg>
+                  <span class="sr-only">Notifications</span>
+                  <div
+                    class="absolute inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2"
+                  >
+                    {{ psLength }}
+                  </div>
+                </span>
+                <span
+                  *ngIf="checkSoyjoy(item) && isSoyjoy"
+                  class="relative inline-flex items-center p-1 text-sm font-medium text-center text-white bg-pink-500 rounded-lg hover:bg-blue-800"
+                >
+                  <svg
+                    fill="currentColor"
+                    height="20"
+                    width="20"
+                    version="1.1"
+                    id="Capa_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 442.326 442.326"
+                    xml:space="preserve"
+                  >
+                    <path
+                      d="M430.024,68.87l-56.568-56.568C365.523,4.369,354.976,0,343.757,0c-11.218,0-21.766,4.369-29.699,12.302
+	c-8.292,8.293-12.54,19.4-12.3,30.598c-11.214-0.246-22.305,4.009-30.597,12.301c-8.293,8.293-12.542,19.399-12.3,30.598
+	c-11.206-0.274-22.305,4.008-30.598,12.3c-8.292,8.293-12.54,19.4-12.3,30.597c-11.214-0.228-22.305,4.008-30.597,12.301h-0.001
+	L45.358,281.003c-0.008,0.008-0.015,0.016-0.023,0.023L3.056,323.304c-1.168,1.126-2.077,2.551-2.594,4.2
+	c-0.049,0.156-0.094,0.313-0.135,0.471c-0.599,2.289-0.352,4.608,0.553,6.621c0.001,0.002,0.002,0.005,0.003,0.008l0.002,0.003
+	c0.214,0.475,0.463,0.93,0.746,1.362c1.262,1.933,3.195,3.441,5.583,4.135c0.003,0,0.012,0.004,0.019,0.005
+	c0.01,0.005,0.016,0.006,0.023,0.007l34.258,9.789l9.789,34.258c0.949,3.322,3.546,5.919,6.868,6.868l34.254,9.785l9.787,34.255
+	c0.002,0.008,0.004,0.016,0.006,0.022c0.001,0.003,0.002,0.007,0.003,0.01c0.001,0.004,0.002,0.009,0.003,0.013
+	c0.001,0.004,0.002,0.009,0.004,0.013l0.001,0.005c0.703,2.402,2.229,4.341,4.182,5.598c0.399,0.257,0.818,0.486,1.254,0.686
+	c0.004,0.001,0.008,0.003,0.012,0.005c1.284,0.586,2.694,0.904,4.144,0.904c0.909,0,1.834-0.125,2.752-0.388
+	c1.757-0.502,3.269-1.443,4.451-2.671l42.276-42.276c0.008-0.007,0.016-0.015,0.023-0.023l60.658-60.658
+	c1.163,1.162,2.613,2.041,4.247,2.522c3.51,1.034,7.307,0.066,9.895-2.522l72.278-72.278c3.905-3.905,3.905-10.237,0-14.143
+	l-0.85-0.85c4.17-6.869,6.249-14.751,6.08-22.677c11.19,0.233,22.304-4.008,30.597-12.3c8.293-8.293,12.542-19.399,12.3-30.598
+	c11.2,0.261,22.305-4.008,30.598-12.3c8.293-8.293,12.542-19.4,12.3-30.598c11.205,0.209,22.305-4.009,30.597-12.301
+	c7.933-7.933,12.302-18.479,12.302-29.698C442.326,87.351,437.957,76.804,430.024,68.87z M116.773,413.234l-6.644-23.255
+	c-0.949-3.322-3.546-5.919-6.868-6.868l-34.254-9.785l-9.789-34.258c-0.949-3.322-3.546-5.919-6.868-6.868l-23.259-6.646
+	l23.338-23.338l87.681,87.682L116.773,413.234z M234.953,309.196L211.46,200.459c-1.167-5.398-6.488-8.825-11.886-7.662
+	c-5.398,1.166-8.829,6.488-7.663,11.886l23.703,109.71l-61.362,61.362l-87.681-87.681l125.865-125.865l94.752,94.752h0
+	L234.953,309.196z M415.883,114.125c-6.691,6.689-16.878,8.355-25.349,4.145c-3.847-1.914-8.485-1.155-11.523,1.883
+	s-3.795,7.677-1.883,11.523c4.211,8.471,2.546,18.657-4.144,25.348c-6.69,6.691-16.876,8.355-25.348,4.144
+	c-3.847-1.913-8.486-1.155-11.523,1.883c-3.038,3.038-3.796,7.677-1.883,11.523c4.211,8.471,2.546,18.657-4.144,25.348
+	c-6.69,6.69-16.878,8.355-25.348,4.144c-3.846-1.913-8.485-1.155-11.523,1.883c-3.038,3.038-3.795,7.677-1.883,11.523
+	c2.626,5.281,2.967,11.229,1.231,16.581l-84.289-84.289c5.351-1.736,11.3-1.395,16.58,1.231c3.848,1.913,8.485,1.155,11.523-1.883
+	s3.796-7.677,1.883-11.523c-4.212-8.471-2.546-18.657,4.144-25.348c6.69-6.691,16.876-8.356,25.348-4.143
+	c3.847,1.914,8.486,1.154,11.523-1.883c3.038-3.038,3.796-7.677,1.883-11.523c-4.211-8.471-2.546-18.657,4.144-25.349
+	c6.691-6.689,16.878-8.355,25.348-4.144c3.846,1.912,8.485,1.155,11.523-1.883c3.038-3.038,3.795-7.677,1.883-11.523
+	c-4.212-8.471-2.547-18.657,4.144-25.348c4.155-4.155,9.68-6.444,15.556-6.444c5.876,0,11.401,2.289,15.556,6.444l56.569,56.568
+	c4.155,4.155,6.444,9.68,6.444,15.557C422.326,104.445,420.037,109.97,415.883,114.125z"
+                    />
+                  </svg>
+                  <span class="sr-only">Notifications</span>
+                  <div
+                    class="absolute inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2"
+                  >
+                    {{ soyjoyLength }}
+                  </div>
+                </span>
+                <span
+                  *ngIf="checkNewProduct(item) && isNewProduct"
+                  class="relative inline-flex items-center p-1 text-sm font-medium text-center text-white rounded-lg bg-[#6C3428] hover:bg-blue-800"
+                >
+                  <svg
+                    fill="currentColor"
+                    width="20"
+                    height="20"
+                    version="1.1"
+                    id="Layer_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 290.626 290.626"
+                    xml:space="preserve"
+                  >
+                    <g>
+                      <g>
+                        <g>
+                          <path
+                            d="M267.188,150H262.5c0-5.625-2.541-10.622-6.478-14.063c3.938-3.441,6.478-8.438,6.478-14.063v-37.5
+				c0-5.625-2.541-10.622-6.478-14.063c3.938-3.441,6.478-8.438,6.478-14.063v-32.81h-4.688c-11.466,0-21.178-8.212-23.081-19.528
+				L234.075,0h-37.2c-5.63,0-10.622,2.541-14.063,6.478C179.372,2.542,174.38,0,168.75,0h-46.875c-5.63,0-10.622,2.541-14.063,6.478
+				C104.372,2.542,99.38,0,93.75,0H46.875c-10.341,0-18.75,8.409-18.75,18.75v37.5c0,5.625,2.541,10.622,6.478,14.063
+				c-3.938,3.441-6.478,8.438-6.478,14.063v37.5c0,5.625,2.541,10.622,6.478,14.063c-3.938,3.441-6.478,8.438-6.478,14.063h-4.688
+				C10.514,150,0,160.514,0,173.438V187.5c0,11.316,8.067,20.784,18.75,22.964v66.098c0,7.753,6.309,14.063,14.063,14.063h225
+				c7.753,0,14.063-6.309,14.063-14.063v-66.098c10.683-2.18,18.75-11.644,18.75-22.964v-14.063
+				C290.625,160.514,280.111,150,267.188,150z M187.5,18.75c0-5.17,4.205-9.375,9.375-9.375h29.513
+				c3.633,12.305,14.086,21.305,26.737,23.105v23.77c0,5.17-4.205,9.375-9.375,9.375h-46.875c-5.17,0-9.375-4.205-9.375-9.375V18.75
+				z M187.5,84.375c0-5.17,4.205-9.375,9.375-9.375h46.875c5.17,0,9.375,4.205,9.375,9.375v37.5c0,5.17-4.205,9.375-9.375,9.375
+				h-46.875c-5.17,0-9.375-4.205-9.375-9.375V84.375z M196.875,140.625h46.875c5.17,0,9.375,4.205,9.375,9.375H187.5
+				C187.5,144.831,191.705,140.625,196.875,140.625z M182.813,68.522c0.558,0.637,1.153,1.233,1.791,1.791
+				c-0.637,0.558-1.233,1.153-1.791,1.791c-0.558-0.637-1.153-1.233-1.791-1.791C181.659,69.755,182.255,69.159,182.813,68.522z
+				 M182.812,134.147c0.558,0.637,1.154,1.233,1.791,1.791c-0.637,0.558-1.233,1.153-1.791,1.791
+				c-0.558-0.637-1.153-1.233-1.791-1.791C181.658,135.38,182.254,134.785,182.812,134.147z M112.5,18.75
+				c0-5.17,4.205-9.375,9.375-9.375h46.875c5.17,0,9.375,4.205,9.375,9.375v37.5c0,5.17-4.205,9.375-9.375,9.375h-46.875
+				c-5.17,0-9.375-4.205-9.375-9.375V18.75z M112.5,84.375c0-5.17,4.205-9.375,9.375-9.375h46.875c5.17,0,9.375,4.205,9.375,9.375
+				v37.5c0,5.17-4.205,9.375-9.375,9.375h-46.875c-5.17,0-9.375-4.205-9.375-9.375V84.375z M121.875,140.625h46.875
+				c5.17,0,9.375,4.205,9.375,9.375H112.5C112.5,144.831,116.705,140.625,121.875,140.625z M107.813,68.522
+				c0.558,0.637,1.153,1.233,1.791,1.791c-0.637,0.558-1.233,1.153-1.791,1.791c-0.558-0.638-1.154-1.234-1.791-1.791
+				C106.659,69.755,107.255,69.16,107.813,68.522z M107.813,134.147c0.558,0.637,1.153,1.233,1.791,1.791
+				c-0.637,0.558-1.233,1.153-1.791,1.791c-0.558-0.638-1.154-1.234-1.791-1.791C106.659,135.38,107.255,134.785,107.813,134.147z
+				 M37.5,18.75c0-5.17,4.205-9.375,9.375-9.375H93.75c5.17,0,9.375,4.205,9.375,9.375v37.5c0,5.17-4.205,9.375-9.375,9.375H46.875
+				c-5.17,0-9.375-4.205-9.375-9.375V18.75z M37.5,84.375c0-5.17,4.205-9.375,9.375-9.375H93.75c5.17,0,9.375,4.205,9.375,9.375
+				v37.5c0,5.17-4.205,9.375-9.375,9.375H46.875c-5.17,0-9.375-4.205-9.375-9.375V84.375z M46.875,140.625H93.75
+				c5.17,0,9.375,4.205,9.375,9.375H37.5C37.5,144.831,41.705,140.625,46.875,140.625z M262.5,276.563
+				c0,2.583-2.1,4.688-4.687,4.688h-225c-2.587,0-4.688-2.105-4.688-4.688v-65.625H262.5V276.563z M281.251,187.5L281.251,187.5
+				c-0.001,7.753-6.31,14.063-14.064,14.063H23.438c-7.753,0-14.063-6.309-14.063-14.063v-14.063
+				c0-7.753,6.309-14.063,14.063-14.063h243.75c7.753,0,14.063,6.309,14.063,14.063V187.5z"
+                          />
+                          <rect
+                            x="196.875"
+                            y="220.313"
+                            width="51.563"
+                            height="9.375"
+                          />
+                          <rect
+                            x="178.125"
+                            y="220.313"
+                            width="9.375"
+                            height="9.375"
+                          />
+                          <rect
+                            x="159.375"
+                            y="220.313"
+                            width="9.375"
+                            height="9.375"
+                          />
+                          <rect
+                            x="140.625"
+                            y="220.313"
+                            width="9.375"
+                            height="9.375"
+                          />
+                          <path
+                            d="M60.937,56.251h18.75c7.753,0,14.063-6.309,14.063-14.063v-9.375c0-7.753-6.309-14.063-14.063-14.063h-18.75
+				c-7.753,0-14.063,6.309-14.063,14.063v9.375C46.874,49.941,53.183,56.251,60.937,56.251z M56.249,32.813
+				c0-2.583,2.1-4.688,4.688-4.688h18.75c2.588,0,4.688,2.105,4.688,4.688v9.375c0,2.583-2.1,4.688-4.688,4.688h-18.75
+				c-2.588,0-4.688-2.105-4.688-4.688V32.813z"
+                          />
+                          <path
+                            d="M135.938,56.25h18.75c7.753,0,14.063-6.309,14.063-14.063v-9.375c0-7.753-6.309-14.063-14.063-14.063h-18.75
+				c-7.753,0-14.063,6.309-14.063,14.063v9.375C121.875,49.941,128.184,56.25,135.938,56.25z M131.25,32.813
+				c0-2.583,2.1-4.688,4.688-4.688h18.75c2.587,0,4.688,2.105,4.688,4.688v9.375c0,2.583-2.1,4.688-4.688,4.688h-18.75
+				c-2.587,0-4.688-2.105-4.688-4.688V32.813z"
+                          />
+                          <path
+                            d="M210.938,56.25h18.75c7.753,0,14.063-6.309,14.063-14.063V37.5h-9.375v4.688c0,2.583-2.1,4.688-4.688,4.688h-18.75
+				c-2.587,0-4.688-2.105-4.688-4.688v-9.375c0-2.583,2.1-4.688,4.688-4.688h9.375V18.75h-9.375
+				c-7.753,0-14.063,6.309-14.063,14.063v9.375C196.875,49.941,203.184,56.25,210.938,56.25z"
+                          />
+                          <path
+                            d="M60.937,121.876h18.75c7.753,0,14.063-6.309,14.063-14.063v-9.375c0-7.753-6.309-14.063-14.063-14.063h-9.375v9.375
+				h9.375c2.588,0,4.688,2.105,4.688,4.688v9.375c0,2.583-2.1,4.688-4.688,4.688h-18.75c-2.588,0-4.688-2.105-4.688-4.688v-9.375
+				c0-2.583,2.1-4.688,4.688-4.688v-9.375c-7.753,0-14.063,6.309-14.063,14.063v9.375C46.874,115.566,53.183,121.876,60.937,121.876
+				z"
+                          />
+                          <path
+                            d="M135.938,121.875h18.75c7.753,0,14.063-6.309,14.063-14.063v-9.375c0-7.753-6.309-14.063-14.063-14.063h-18.75
+				c-7.753,0-14.063,6.309-14.063,14.063v9.375C121.875,115.566,128.184,121.875,135.938,121.875z M131.25,98.438
+				c0-2.583,2.1-4.688,4.688-4.688h18.75c2.587,0,4.688,2.105,4.688,4.688v9.375c0,2.583-2.1,4.688-4.688,4.688h-18.75
+				c-2.587,0-4.688-2.105-4.688-4.688V98.438z"
+                          />
+                          <path
+                            d="M210.938,121.876V112.5c-2.587,0-4.688-2.105-4.688-4.688v-9.375c0-2.583,2.1-4.688,4.688-4.688h18.75
+				c2.587,0,4.688,2.105,4.688,4.688v9.375c0,2.583-2.1,4.688-4.688,4.688h-9.375v9.375h9.375c7.753,0,14.063-6.309,14.063-14.063
+				v-9.375c0-7.753-6.309-14.063-14.063-14.063h-18.75c-7.753,0-14.063,6.309-14.063,14.063v9.376
+				C196.875,115.566,203.184,121.876,210.938,121.876z"
+                          />
+                        </g>
+                      </g>
+                    </g>
+                  </svg>
+                  <span class="sr-only">Notifications</span>
+                  <div
+                    class="absolute inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2"
+                  >
+                    {{ newProductLength }}
+                  </div>
+                </span>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<input type="checkbox" id="my_modal_info" class="modal-toggle" />
+<div class="modal" *ngIf="dataModal">
+  <div class="overflow-hidden rounded-2xl">
+    <div
+      class="overflow-y-auto bg-white dark:bg-slate-700 max-w-[70vw] max-h-[60vh] px-4 py-2"
+    >
+      <div class="flex items-center justify-between gap-8 m-3 mb-4">
+        <h3 class="text-lg font-medium dark:text-slate-50">
+          Schedule for
+          <span class="font-bold">{{
+            dataModal.date | date : "EEEE, MMMM dd, yyyy"
+          }}</span>
+        </h3>
+        <label
+          for="my_modal_info"
+          class="text-red-500 duration-300 rounded-full cursor-pointer hover:scale-105"
+        >
+          <svg
+            width="35"
+            height="35"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+            <path
+              d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </label>
+      </div>
+      <div
+        class="flex flex-wrap items-center gap-4 m-3 justify-evenly"
+        *ngIf="selectedDayMeeting.length"
+      >
+        <div *ngIf="dataModal.scheduleSoyjoy.length">
+          <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+            SNACKBAR
+          </h2>
+          <ul
+            class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400"
+          >
+            <li *ngFor="let item of dataModal.scheduleSoyjoy">
+              <span class="{{ item.status == 'Not Yet' && 'text-red-500' }}"
+                >{{ item.description }} ({{ item.DataStability.pic }})</span
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <div *ngIf="dataModal.schedulePs.length">
+          <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+            Isotonic Drink
+          </h2>
+          <ul
+            class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400"
+          >
+            <li *ngFor="let item of dataModal.schedulePs">
+              {{ item.description }} ({{ item.DataStability.pic }})
+            </li>
+          </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <div *ngIf="dataModal.schedulePsiw.length">
+          <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+            Isotonic Water
+          </h2>
+          <ul
+            class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400"
+          >
+            <li *ngFor="let item of dataModal.schedulePsiw">
+              {{ item.description }} ({{ item.DataStability.pic }})
+            </li>
+          </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <div *ngIf="dataModal.scheduleNewProduct.length">
+          <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+            New Product
+          </h2>
+          <ul
+            class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400"
+          >
+            <li *ngFor="let item of dataModal.scheduleNewProduct">
+              {{ item.description }} ({{ item.DataStability.pic }})
+            </li>
+          </ul>
+        </div>
+
+        <div class="divider"></div>
+      </div>
+      <div class="flex items-center justify-center">
+        <h1
+          class="text-xl font-semibold dark:text-slate-50 my-14"
+          *ngIf="!selectedDayMeeting.length"
+        >
+          There is no schedule for this day
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>

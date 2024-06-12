@@ -1,0 +1,19 @@
+.icon path {
+  fill: transparent;
+  stroke-width: 3;
+  animation: animate-under 10s linear forwards; /* Apply animation on load */
+}
+
+.icon.under path {
+  stroke-dasharray: 5;
+  stroke-dashoffset: 5;
+}
+
+@keyframes animate-under {
+  0% {
+    stroke-dashoffset: 5;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}

@@ -1,0 +1,968 @@
+<p
+  [attr.data-aos]="isAnimate ? 'zoom-in' : null"
+  [attr.data-aos-duration]="isAnimate ? '1000' : null"
+  class="mt-2 mb-4 text-3xl font-bold text-center text-cBlue dark:text-slate-50"
+>
+  Accelarated Shelf Life Test
+</p>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="large"
+  color="#fff"
+  type="ball-atom"
+  color="white"
+  [fullScreen]="true"
+>
+  <h1 class="text-lg text-white animate-pulse">Loading . . .</h1>
+</ngx-spinner>
+
+<form [formGroup]="form" class="mb-5">
+  <div class="flex w-full gap-3 mb-5">
+    <div class="w-1/2">
+      <div class="form-control" data-aos="fade-right" data-aos-duration="1000">
+        <label class="label">
+          <span class="label-text dark:text-slate-50">Product</span>
+        </label>
+        <select
+          class="select select-bordered dark:bg-slate-800 dark:text-slate-50"
+          formControlName="product"
+          (change)="handleChange()"
+        >
+          <option value="{{ item?.slug }}" *ngFor="let item of listProduct">
+            {{ item?.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="flex items-end w-1/2 gap-10">
+      <div
+        class="w-full form-control"
+        *ngIf="listDataStability?.length"
+        data-aos="fade-right"
+        data-aos-duration="1000"
+      >
+        <label class="label">
+          <span class="label-text dark:text-slate-50">Lot Number</span>
+        </label>
+        <input
+          list="listName"
+          formControlName="lotNumber"
+          type="text"
+          placeholder="Type here"
+          class="w-full input input-bordered dark:bg-slate-800 dark:text-slate-50"
+        />
+        <datalist id="listName">
+          <option
+            *ngFor="let item of listDataStability; index as i"
+            [value]="item?.lotNumber"
+          >
+            {{ item?.name }}
+          </option>
+        </datalist>
+      </div>
+      <div
+        data-aos="zoom-in"
+        data-aos-duration="500"
+        class="duration-300 ease-in-out cursor-pointer w-14 hover:scale-105 active:scale-100 tooltip"
+        data-tip="Find Data"
+        *ngIf="form.value.lotNumber !== ''"
+        (click)="findData()"
+      >
+        <img src="assets/search.png" alt="" />
+      </div>
+    </div>
+  </div>
+  <div class="flex items-end justify-between w-full gap-4">
+    <div
+      class="w-[80%]"
+      *ngIf="dataSelected && form.value.lotNumber == dataSelected.lotNumber"
+    >
+      <div
+        data-aos="fade-left"
+        data-aos-duration="1000"
+        class="flex flex-row justify-center gap-4 px-4 pt-4 pb-2 shadow-xl card bg-base-100 dark:bg-slate-800 dark:text-slate-50"
+      >
+        <div class="flex items-center gap-2 w-fit">
+          <p
+            class="font-semibold px-4 py-[10px] text-gray-900 dark:text-gray-500"
+          >
+            Variant
+          </p>
+          <p class="font-semibold text-gray-900 dark:text-gray-500">:</p>
+          <p
+            class="font-semibold px-4 py-[10px] text-gray-900 dark:text-gray-500"
+          >
+            ({{ dataSelected?.Product?.name | titlecase }}) -
+            {{ dataSelected?.ProductDescription?.Variant?.name | titlecase }}
+          </p>
+        </div>
+        <div class="flex items-center gap-2 w-fit">
+          <p
+            class="font-semibold px-4 py-[10px] text-gray-900 dark:text-gray-500"
+          >
+            Line
+          </p>
+          <p class="font-semibold text-gray-900 dark:text-gray-500">:</p>
+          <p
+            class="font-semibold px-4 py-[10px] text-gray-900 dark:text-gray-500"
+          >
+            {{ dataSelected?.Line?.name }}
+          </p>
+        </div>
+        <div class="flex items-center gap-2 w-fit max-w-[75%]">
+          <p
+            class="font-semibold px-4 py-[10px] text-gray-900 dark:text-gray-500"
+          >
+            Dev.Background
+          </p>
+          <p class="font-semibold text-gray-900 dark:text-gray-500">:</p>
+          <p
+            class="font-semibold px-4 py-[10px] text-gray-900 truncate dark:text-gray-500"
+          >
+            {{ dataSelected?.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      data-aos="fade-right"
+      data-aos-duration="1000"
+      class="form-control"
+      *ngIf="dataSelected && form.value.lotNumber == dataSelected.lotNumber"
+    >
+      <form [formGroup]="form">
+        <label class="label">
+          <span class="text-xl font-extrabold label-text dark:text-slate-50"
+            >Parameter</span
+          >
+        </label>
+        <select
+          class="select select-bordered text-slate-50 bg-[#1D5D9B]"
+          (change)="getParameterDataSelected()"
+          formControlName="parameterId"
+        >
+          <option
+            value="{{ item.Parameter.id }}"
+            *ngFor="let item of listParameterDataSelected"
+          >
+            {{ item?.Parameter?.name }}
+          </option>
+        </select>
+      </form>
+    </div>
+  </div>
+</form>
+<div class="mt-44" *ngIf="data?.length == 0">
+  <p class="text-3xl font-bold text-center text-cBlue dark:text-slate-50">
+    Data tidak ditemukan
+  </p>
+</div>
+<div *ngIf="data?.length && !dataSelected">
+  <div
+    class="my-4 text-3xl font-bold text-center text-cBlue dark:text-slate-50"
+  >
+    Select One Data
+  </div>
+  <div class="grid w-full grid-cols-2 gap-3">
+    <div
+      *ngFor="let item of data; index as i"
+      data-aos="fade-down"
+      [attr.data-aos-duration]="(i + 1) * 1000"
+      class="w-full px-4 pt-4  pb-2 shadow-xl card max-lg:w-full bg-base-100 dark:bg-slate-800 dark:text-slate-50 {{
+        data.length > 1 &&
+          'cursor-pointer dark:border-[1px] border-slate-800 dark:hover:dark:bg-gray-900 duration-300'
+      }}
+    "
+      (click)="getSelectedData(item.id)"
+    >
+      <div class="relative overflow-x-auto">
+        <table class="w-full">
+          <tbody class="text-start">
+            <tr class="border-b text-start">
+              <th
+                scope="row text-start "
+                class="px-6 py-[10px] font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap text-start"
+              >
+                Variant
+              </th>
+              <td class="px-6 py-[10px] text-start">:</td>
+              <td class="px-6 py-[10px] text-start">
+                ({{ item?.Product?.name | titlecase }}) -
+                {{ item?.ProductDescription.Variant?.name | titlecase }}
+              </td>
+            </tr>
+            <tr class="border-b text-start">
+              <th
+                scope="row text-start "
+                class="px-6 py-[10px] font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap text-start"
+              >
+                Line
+              </th>
+              <td class="px-6 py-[10px] text-start">:</td>
+              <td class="px-6 py-[10px] text-start">
+                {{ item?.Line?.name }}
+              </td>
+            </tr>
+            <tr class="border-b">
+              <th
+                scope="row"
+                class="px-6 py-[10px] text-start font-semibold text-gray-900 dark:text-gray-500 whitespace-nowrap"
+              >
+                Dev.Background
+              </th>
+              <td class="px-6 py-[10px] text-start">:</td>
+              <td class="px-6 py-[10px] text-start">
+                {{ item?.description }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="text-center text-cBlue dark:text-slate-50 rounded-xl"
+  *ngIf="parameterSelected && form.value.lotNumber == dataSelected.lotNumber"
+>
+  <h1 class="py-4 text-3xl font-semibold">
+    Data Parameter {{ parameterSelected?.name }}
+  </h1>
+</div>
+
+<div
+  class=""
+  *ngIf="dataTable && form.value.lotNumber == dataSelected.lotNumber"
+>
+  <div class="flex flex-wrap items-center justify-between">
+    <div class="flex items-center gap-2">
+      <div class="overflow-x-auto">
+        <div class="inline-block min-w-full align-middle">
+          <div class="overflow-hidden border rounded-lg dark:border-gray-200">
+            <table
+              class="min-w-full divide-y divide-gray-200 dark:divide-gray-200"
+            >
+              <thead>
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-3 py-1.5 border-b-[1px] border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  ></th>
+                  <th
+                    scope="col"
+                    colspan="3"
+                    class="px-3 py-1.5 border-b-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    {{ parameterSelected?.name }} Value
+                  </th>
+                </tr>
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-3 py-1.5 border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    Waktu (Month)
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-3 py-1.5 border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    30&deg;C
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-3 py-1.5 border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    40&deg;C
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-3 py-1.5 text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    50&deg;C
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-200">
+                <tr *ngFor="let item of dataTable">
+                  <td
+                    class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                  >
+                    {{ item.timeline }}
+                  </td>
+                  <td
+                    class="px-3 py-1.5 border-r-[1px] text-sm text-center text-gray-800 dark:text-gray-200 {{
+                      item.val30Deg.status == 'passed' && 'bg-green-500'
+                    }} {{ item.val30Deg.status == 'failed' && 'bg-red-500' }}"
+                  >
+                    {{ item.val30Deg.value }}
+                  </td>
+                  <td
+                    class="px-3 py-1.5 border-r-[1px] text-sm text-center text-gray-800  dark:text-gray-200  {{
+                      item.val40Deg.status == 'passed' && 'bg-green-500'
+                    }} {{ item.val40Deg.status == 'failed' && 'bg-red-500' }}"
+                  >
+                    {{ item.val40Deg.value }}
+                  </td>
+                  <td
+                    class="px-3 py-1.5 text-sm text-center text-gray-800  dark:text-gray-200  {{
+                      item.val50Deg.status == 'passed' && 'bg-green-500'
+                    }} {{ item.val50Deg.status == 'failed' && 'bg-red-500' }}"
+                  >
+                    {{ item.val50Deg.value }}
+                  </td>
+                </tr>
+              </tbody>
+              <tbody
+                *ngIf="dataTable.length == 0"
+                class="divide-y divide-gray-200 dark:divide-gray-200"
+              >
+                <tr>
+                  <td
+                    colspan="4"
+                    class="px-3 py-1.5 text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                  >
+                    No data found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="animate-pulse" *ngIf="!dataTable">
+              <div class="h-4 mt-3 mb-6 bg-gray-200 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="duration-300 ease-in-out shadow-xl cursor-pointer rounded-3xl hover:scale-105 active:scale-100font-extrabold h-fit tooltip"
+      data-tip="Calculate Data"
+      (click)="calculateData()"
+    >
+      <img src="assets/calculator1.png" class="w-20" alt="" />
+    </div>
+    <div class="">
+      <div
+        class="mb-3 text-center text-cBlue dark:text-slate-50"
+        *ngIf="finalResult"
+      >
+        <h1 class="text-2xl font-semibold">Final Result</h1>
+      </div>
+      <div class="overflow-x-auto" *ngIf="finalResult">
+        <div class="inline-block min-w-full align-middle">
+          <div class="overflow-hidden border rounded-lg dark:border-gray-200">
+            <table
+              class="min-w-full divide-y divide-gray-200 dark:divide-gray-200"
+            >
+              <thead>
+                <tr>
+                  <th
+                    scope="col"
+                    colspan="2"
+                    class="px-3 py-1.5 border-b-[1px] border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    Suhu (T)
+                  </th>
+                  <th
+                    scope="col"
+                    rowspan="2"
+                    class="px-3 py-1.5 border-b-[1px] border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    1/T
+                  </th>
+                  <th
+                    scope="col"
+                    rowspan="2"
+                    class="px-3 py-1.5 border-b-[1px] border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    Ln K
+                  </th>
+                  <th
+                    scope="col"
+                    rowspan="2"
+                    class="px-3 py-1.5 border-b-[1px] border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    Nilain K
+                  </th>
+                  <th
+                    scope="col"
+                    rowspan="2"
+                    class="px-3 py-1.5 border-b-[1px] text-center text-xs text-slate-50 uppercase bg-[#1D5D9B] font-bold"
+                  >
+                    Umur Simpan <br />(Month)
+                  </th>
+                </tr>
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-3 py-1.5 border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    &deg;C
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-3 py-1.5 border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                  >
+                    &deg;T
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-200">
+                <tr *ngFor="let item of finalResult">
+                  <td
+                    class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                  >
+                    {{ item.tempC }}
+                  </td>
+                  <td
+                    class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                  >
+                    {{ item.tempK }}
+                  </td>
+                  <td
+                    class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                  >
+                    {{ item.perT }}
+                  </td>
+                  <td
+                    class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                  >
+                    {{ item.lnk }}
+                  </td>
+                  <td
+                    class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                  >
+                    {{ item.k }}
+                  </td>
+                  <td
+                    class="px-3 py-1.5 border-r-[1px] text-base text-center text-gray-800 dark:text-gray-200 font-extrabold"
+                  >
+                    {{ item.month }}
+                  </td>
+                </tr>
+              </tbody>
+              <tbody
+                *ngIf="dataTable.length == 0"
+                class="divide-y divide-gray-200 dark:divide-gray-200"
+              >
+                <tr>
+                  <td
+                    colspan="4"
+                    class="px-3 py-1.5 text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                  >
+                    No data found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="animate-pulse" *ngIf="!dataTable">
+              <div class="h-4 mt-3 mb-6 bg-gray-200 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+              <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="text-center text-cBlue dark:text-slate-50 rounded-xl"
+  *ngIf="predict30Deg && predict40Deg && predict50Deg"
+>
+  <h1 class="py-4 text-3xl font-semibold">Data Prediction</h1>
+</div>
+<div
+  class="grid grid-cols-3 gap-4 mt-5"
+  *ngIf="predict30Deg && predict40Deg && predict50Deg"
+>
+  <div class="p-2 bg-white rounded-xl">
+    <div id="chart">
+      <apx-chart
+        [series]="predict30Deg?.series"
+        [chart]="predict30Deg?.chart"
+        [xaxis]="predict30Deg?.xaxis"
+        [stroke]="predict30Deg?.stroke"
+        [tooltip]="predict30Deg?.tooltip"
+        [dataLabels]="predict30Deg?.dataLabels"
+        [legend]="predict30Deg?.legend"
+        [markers]="predict30Deg?.markers"
+        [grid]="predict30Deg?.grid"
+        [yaxis]="predict30Deg?.yaxis"
+        [title]="predict30Deg?.title"
+      ></apx-chart>
+    </div>
+  </div>
+  <div class="p-2 bg-white rounded-xl">
+    <div id="chart">
+      <apx-chart
+        [series]="predict40Deg?.series"
+        [chart]="predict40Deg?.chart"
+        [xaxis]="predict40Deg?.xaxis"
+        [stroke]="predict40Deg?.stroke"
+        [tooltip]="predict40Deg?.tooltip"
+        [dataLabels]="predict40Deg?.dataLabels"
+        [legend]="predict40Deg?.legend"
+        [markers]="predict40Deg?.markers"
+        [grid]="predict40Deg?.grid"
+        [yaxis]="predict40Deg?.yaxis"
+        [title]="predict40Deg?.title"
+      ></apx-chart>
+    </div>
+  </div>
+  <div class="p-2 bg-white rounded-xl">
+    <div id="chart">
+      <apx-chart
+        [series]="predict50Deg?.series"
+        [chart]="predict50Deg?.chart"
+        [xaxis]="predict50Deg?.xaxis"
+        [stroke]="predict50Deg?.stroke"
+        [tooltip]="predict50Deg?.tooltip"
+        [dataLabels]="predict50Deg?.dataLabels"
+        [legend]="predict50Deg?.legend"
+        [markers]="predict50Deg?.markers"
+        [grid]="predict50Deg?.grid"
+        [yaxis]="predict50Deg?.yaxis"
+        [title]="predict50Deg?.title"
+      ></apx-chart>
+    </div>
+  </div>
+</div>
+
+<div class="flex justify-center w-full mt-10" *ngIf="finalResult">
+  <div
+    class="tooltip tooltip-right"
+    (click)="extendData = true"
+    data-tip="Extend Data"
+  >
+    <img
+      src="assets/arrow.png"
+      class="duration-300 ease-in-out cursor-pointer h-36 hover:scale-105"
+      alt=""
+    />
+  </div>
+</div>
+<div
+  class="max-w-full text-center text-cBlue dark:text-slate-50 rounded-xl"
+  *ngIf="extendData && finalResult"
+>
+  <h1 class="py-4 text-3xl font-semibold">Detailed Calculation</h1>
+</div>
+<div
+  class="{{
+    extendData ? 'block' : 'hidden'
+  }} mt-5 grid grid-cols-3 overflow-x-auto text-center gap-3"
+>
+  <div class="flex flex-col gap-5">
+    <div class="bg-white rounded-xl h-fit">
+      <div
+        class="p-2 mb-3 text-xl font-semibold text-center bg-blue-300 rounded-t-xl"
+      >
+        Linear Regression 30&deg;C
+      </div>
+      <div class="p-2">
+        <canvas id="regression30Deg" height="100"></canvas>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl h-fit">
+      <div
+        class="p-2 mb-3 text-xl font-semibold text-center bg-blue-300 rounded-t-xl"
+      >
+        Linear Regression 40&deg;C
+      </div>
+      <div class="p-2">
+        <canvas id="regression40Deg" height="100"></canvas>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl h-fit">
+      <div
+        class="p-2 mb-3 text-xl font-semibold text-center bg-blue-300 rounded-t-xl"
+      >
+        Linear Regression 50&deg;C
+      </div>
+      <div class="p-2">
+        <canvas id="regression50Deg" height="100"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-10">
+    <div
+      class="overflow-x-auto"
+      *ngIf="dataTable && form.value.lotNumber == dataSelected.lotNumber"
+    >
+      <div class="inline-block min-w-full align-middle">
+        <div class="overflow-hidden border rounded-lg dark:border-gray-200">
+          <table
+            class="min-w-full divide-y divide-gray-200 dark:divide-gray-200"
+          >
+            <thead>
+              <tr>
+                <th
+                  scope="col"
+                  class="px-3 py-1.5 border-b-[1px] border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  DATA RECORD
+                </th>
+                <th
+                  scope="col"
+                  colspan="3"
+                  class="px-3 py-1.5 border-b-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  {{ parameterSelected?.name }} Value
+                </th>
+              </tr>
+              <tr>
+                <th
+                  scope="col"
+                  class="px-3 py-1.5 border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  Time (Month)
+                </th>
+                <th
+                  scope="col"
+                  class="px-3 py-1.5 border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  30&deg;C
+                </th>
+                <th
+                  scope="col"
+                  class="px-3 py-1.5 border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  40&deg;C
+                </th>
+                <th
+                  scope="col"
+                  class="px-3 py-1.5 text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  50&deg;C
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-200">
+              <tr *ngFor="let item of dataTable">
+                <td
+                  class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                >
+                  {{ item.timeline }}
+                </td>
+                <td
+                  class="px-3 py-1.5 border-r-[1px] text-sm text-center text-gray-800 dark:text-gray-200 {{
+                    item.val30Deg.status == 'passed' && 'bg-green-500'
+                  }} {{ item.val30Deg.status == 'failed' && 'bg-red-500' }}"
+                >
+                  {{ item.val30Deg.value }}
+                </td>
+                <td
+                  class="px-3 py-1.5 border-r-[1px] text-sm text-center text-gray-800  dark:text-gray-200  {{
+                    item.val40Deg.status == 'passed' && 'bg-green-500'
+                  }} {{ item.val40Deg.status == 'failed' && 'bg-red-500' }}"
+                >
+                  {{ item.val40Deg.value }}
+                </td>
+                <td
+                  class="px-3 py-1.5 text-sm text-center text-gray-800  dark:text-gray-200  {{
+                    item.val50Deg.status == 'passed' && 'bg-green-500'
+                  }} {{ item.val50Deg.status == 'failed' && 'bg-red-500' }}"
+                >
+                  {{ item.val50Deg.value }}
+                </td>
+              </tr>
+            </tbody>
+            <tbody
+              *ngIf="dataTable.length == 0"
+              class="divide-y divide-gray-200 dark:divide-gray-200"
+            >
+              <tr>
+                <td
+                  colspan="4"
+                  class="px-3 py-1.5 text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                >
+                  No data found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="animate-pulse" *ngIf="!dataTable">
+            <div class="h-4 mt-3 mb-6 bg-gray-200 rounded"></div>
+            <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+            <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+            <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+            <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="overflow-x-auto">
+      <div class="inline-block min-w-full align-middle">
+        <div class="overflow-hidden border rounded-lg dark:border-gray-200">
+          <table
+            class="min-w-full divide-y divide-gray-200 dark:divide-gray-200"
+          >
+            <thead>
+              <tr>
+                <th
+                  scope="col"
+                  class="px-3 py-1.5 border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  T(C)
+                </th>
+                <th
+                  scope="col"
+                  class="px-3 py-1.5 border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  T(K)
+                </th>
+                <th
+                  scope="col"
+                  class="px-3 py-1.5 border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  1/T
+                </th>
+                <th
+                  scope="col"
+                  class="px-3 py-1.5 text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  x
+                </th>
+                <th
+                  scope="col"
+                  class="px-3 py-1.5 text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  LnX
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-200">
+              <tr *ngFor="let item of rawResult">
+                <td
+                  class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                >
+                  {{ item.tempC }}
+                </td>
+                <td
+                  class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                >
+                  {{ item.tempK }}
+                </td>
+                <td
+                  class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                >
+                  {{ item.perT }}
+                </td>
+                <td
+                  class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                >
+                  {{ item.x }}
+                </td>
+                <td
+                  class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                >
+                  {{ item.lnX }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="animate-pulse" *ngIf="!rawResult">
+            <div class="h-4 mt-3 mb-6 bg-gray-200 rounded"></div>
+            <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+            <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+            <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+            <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="mt-10 text-center dark:text-slate-50 text-cBlue px-14"
+      *ngIf="finalResult"
+    >
+      <h1 class="text-4xl font-bold">CONCLUSION :</h1>
+      <p class="text-xl font-semibold">
+        Based on ASLT method, product's shelf life was
+        <span class="text-red-500"> {{ finalResult[0]!.month }} month </span> at
+        30&deg;C
+      </p>
+    </div>
+  </div>
+  <div class="flex flex-col gap-5">
+    <div class="bg-white rounded-xl h-fit">
+      <div
+        class="p-2 mb-3 text-xl font-semibold text-center bg-blue-300 rounded-t-xl"
+      >
+        Acceleration LnX vs 1/T
+      </div>
+      <div class="p-2">
+        <canvas id="finalChart" height="100"></canvas>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl">
+      <div
+        class="p-2 mb-3 text-xl font-semibold text-center bg-blue-300 rounded-t-xl"
+      >
+        Arrhenius Equation
+      </div>
+      <div class="px-4 py-2 font-bold">
+        <table class="mb-5">
+          <tbody>
+            <tr>
+              <td rowspan="2" class="align-top">y =</td>
+              <td>{{ regressionResult?.slope }}x</td>
+              <td rowspan="2" class="align-top">
+                {{ regressionResult?.operation }}
+              </td>
+              <td>{{ regressionResult?.intercept }}</td>
+            </tr>
+            <tr>
+              <td class="text-center text-black bg-yellow-400">Ea/R</td>
+              <td class="text-center text-black bg-yellow-400">L</td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="mb-5">
+          <tbody>
+            <tr>
+              <td class="font-semibold">LnK0</td>
+              <td class="font-semibold">=</td>
+              <td>{{ regressionResult?.intercept }}</td>
+            </tr>
+            <tr>
+              <td class="font-semibold">Ea/R</td>
+              <td class="font-semibold">=</td>
+              <td>{{ regressionResult?.slope }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="mb-3">LnK = Ln K0 + (Ea/R * 1/T)</div>
+      </div>
+    </div>
+    <div class="overflow-x-auto" *ngIf="finalResult">
+      <div class="inline-block min-w-full align-middle">
+        <div class="overflow-hidden border rounded-lg dark:border-gray-200">
+          <table
+            class="min-w-full divide-y divide-gray-200 dark:divide-gray-200"
+          >
+            <thead>
+              <tr>
+                <th
+                  scope="col"
+                  colspan="2"
+                  class="px-3 py-1.5 border-b-[1px] border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  Temperature (T)
+                </th>
+                <th
+                  scope="col"
+                  rowspan="2"
+                  class="px-3 py-1.5 border-b-[1px] border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  1/T
+                </th>
+                <th
+                  scope="col"
+                  rowspan="2"
+                  class="px-3 py-1.5 border-b-[1px] border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  Ln K
+                </th>
+                <th
+                  scope="col"
+                  rowspan="2"
+                  class="px-3 py-1.5 border-b-[1px] border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  K Value
+                </th>
+                <th
+                  scope="col"
+                  rowspan="2"
+                  class="px-3 py-1.5 border-b-[1px] text-center text-xs text-slate-50 uppercase bg-[#1D5D9B] font-bold"
+                >
+                  Shelf life <br />(Month)
+                </th>
+              </tr>
+              <tr>
+                <th
+                  scope="col"
+                  class="px-3 py-1.5 border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  &deg;C
+                </th>
+                <th
+                  scope="col"
+                  class="px-3 py-1.5 border-r-[1px] text-center text-xs font-medium text-slate-50 uppercase bg-[#1D5D9B]"
+                >
+                  &deg;T
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-200">
+              <tr *ngFor="let item of finalResult">
+                <td
+                  class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                >
+                  {{ item.tempC }}
+                </td>
+                <td
+                  class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                >
+                  {{ item.tempK }}
+                </td>
+                <td
+                  class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                >
+                  {{ item.perT }}
+                </td>
+                <td
+                  class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                >
+                  {{ item.lnk }}
+                </td>
+                <td
+                  class="px-3 py-1.5 border-r-[1px] text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                >
+                  {{ item.k }}
+                </td>
+                <td
+                  class="px-3 py-1.5 border-r-[1px] text-base text-center text-gray-800 dark:text-gray-200 font-extrabold"
+                >
+                  {{ item.month }}
+                </td>
+              </tr>
+            </tbody>
+            <tbody
+              *ngIf="dataTable.length == 0"
+              class="divide-y divide-gray-200 dark:divide-gray-200"
+            >
+              <tr>
+                <td
+                  colspan="4"
+                  class="px-3 py-1.5 text-sm text-center font-medium text-gray-800 dark:text-gray-200"
+                >
+                  No data found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="animate-pulse" *ngIf="!dataTable">
+            <div class="h-4 mt-3 mb-6 bg-gray-200 rounded"></div>
+            <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+            <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+            <div class="h-4 mb-6 bg-gray-300 rounded"></div>
+            <div class="h-4 mb-6 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

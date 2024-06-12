@@ -1,0 +1,24 @@
+.active {
+  @apply w-12 text-white bg-[#161D6F] dark:bg-[#DDE6ED] dark:text-[#27374D] rounded-tr-full rounded-br-full ease-in-out duration-300 ;
+}
+.sub-active{
+  @apply w-[4.5rem] text-white bg-[#161D6F] dark:bg-[#DDE6ED] dark:text-[#27374D] rounded-tr-full rounded-br-full ease-in-out duration-300;
+}
+.active span {
+  font-weight: 600;
+  padding-left: 0.5rem;
+  @apply text-[#161D6F] dark:text-slate-50;
+}
+
+
+.slide-down {
+  opacity: 0;
+  transform: translateY(-100%);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.slide-down.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+

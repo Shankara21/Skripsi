@@ -1,0 +1,228 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="large"
+  color="#fff"
+  type="ball-atom"
+  color="white"
+  [fullScreen]="true"
+>
+  <h1 class="text-lg text-white animate-pulse">Loading . . .</h1>
+</ngx-spinner>
+<div class="z-50 border-0 toast toast-top toast-end">
+  <div
+    class="flex justify-between px-8 py-6 text-white bg-red-400 rounded-2xl"
+    *ngIf="alert"
+  >
+    <div class="flex items-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="mr-6 h-7 w-7"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <p>{{ msg }}</p>
+    </div>
+    <button (click)="alert = false" class="text-red-100 hover:text-white">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+<a
+  [attr.data-aos]="isAnimate ? 'fade-right' : null"
+  [attr.data-aos-duration]="isAnimate ? '500' : null"
+  routerLink="/data-stability/{{ params }}"
+  class="flex items-center justify-start gap-2 px-2 py-4 mb-3 duration-300 hover:bg-white dark:hover:bg-slate-800 dark:text-slate-50 hover:shadow-xl py4 w-fit rounded-xl hover:scale-105"
+>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M15 6L9 12L15 18"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+  Back
+</a>
+
+<div
+  class="mb-5 text-3xl font-semibold dark:text-slate-50 text-cBlue"
+  [attr.data-aos]="isAnimate ? 'fade-right' : null"
+  [attr.data-aos-duration]="isAnimate ? '1000' : null"
+>
+  Create Stability Data {{ product?.name | titlecase }}
+</div>
+
+<form [formGroup]="form" (submit)="submit()">
+  <div class="grid grid-cols-3 gap-3">
+    <div class="w-full form-control">
+      <label class="label">
+        <span class="label-text dark:text-slate-50">Variant</span>
+      </label>
+      <select
+        class="select select-bordered dark:bg-slate-800 dark:text-slate-50"
+        formControlName="productDescId"
+      >
+        <option value="{{ item.id }}" *ngFor="let item of productDesc">
+          {{ item?.Product.name | titlecase }} - {{ item?.Variant.name }}
+        </option>
+      </select>
+    </div>
+    <div class="w-full col-span-2 form-control">
+      <label class="label">
+        <span class="label-text dark:text-slate-50"
+          >Development Background</span
+        >
+      </label>
+      <input
+        formControlName="description"
+        type="text"
+        placeholder="Type here"
+        class="w-full input input-bordered dark:bg-slate-800 dark:text-slate-50"
+      />
+    </div>
+  </div>
+  <div class="grid grid-cols-3 gap-3 max-md:grid-cols-2">
+    <div class="w-full form-control">
+      <label class="label">
+        <span class="label-text dark:text-slate-50">Line</span>
+      </label>
+      <select
+        class="select select-bordered dark:bg-slate-800 dark:text-slate-50"
+        formControlName="lineId"
+      >
+        <option value="{{ item.id }}" *ngFor="let item of lines">
+          {{ item.name }}
+        </option>
+      </select>
+    </div>
+    <div class="w-full form-control">
+      <label class="label">
+        <span class="label-text dark:text-slate-50">Lot Number</span>
+      </label>
+      <input
+        type="text"
+        placeholder="Type here"
+        class="w-full input input-bordered dark:bg-slate-800 dark:text-slate-50"
+        formControlName="lotNumber"
+      />
+    </div>
+    <div class="w-full form-control">
+      <label class="label">
+        <span class="label-text dark:text-slate-50"
+          >Starting date stabtest</span
+        >
+      </label>
+      <input
+        type="date"
+        placeholder="Type here"
+        class="w-full input input-bordered dark:bg-slate-800 dark:text-slate-50"
+        formControlName="date"
+        [(ngModel)]="today"
+      />
+    </div>
+    <div class="w-full form-control">
+      <label class="label">
+        <span class="label-text dark:text-slate-50">PIC</span>
+      </label>
+      <input
+        list="listName"
+        formControlName="pic"
+        type="text"
+        placeholder="Type here"
+        class="w-full input input-bordered dark:bg-slate-800 dark:text-slate-50"
+      />
+      <datalist id="listName">
+        <option *ngFor="let item of listUser; index as i" [value]="item.name">
+          {{ item.name }}
+        </option>
+      </datalist>
+    </div>
+    <div class="w-full form-control">
+      <label class="label">
+        <span class="label-text dark:text-slate-50">Section</span>
+      </label>
+      <select
+        class="select select-bordered dark:bg-slate-800 dark:text-slate-50"
+        formControlName="sectionId"
+      >
+        <option value="{{ item.id }}" *ngFor="let item of sections">
+          {{ item.name }} ({{ item.code }})
+        </option>
+      </select>
+    </div>
+    <div class="w-full form-control">
+      <label class="label">
+        <span class="label-text dark:text-slate-50">Status</span>
+      </label>
+      <div class="flex justify-between gap-5">
+        <label class="w-1/4 cursor-pointer label">
+          <input
+            type="radio"
+            name="status"
+            formControlName="status"
+            value="Done"
+            class="radio checked:bg-green-500 dark:border-slate-50"
+          />
+          <span class="label-text dark:text-slate-50 ml-1.5">Done</span>
+        </label>
+        <label class="w-1/4 cursor-pointer label">
+          <input
+            type="radio"
+            name="status"
+            formControlName="status"
+            value="On Progress"
+            class="radio checked:bg-blue-500 dark:border-slate-50"
+          />
+          <span class="label-text dark:text-slate-50 ml-1.5">On Progress</span>
+        </label>
+        <label class="w-1/4 cursor-pointer label">
+          <input
+            type="radio"
+            name="status"
+            formControlName="status"
+            value="Canceled"
+            class="radio checked:bg-red-500 dark:border-slate-50"
+          />
+          <span class="label-text dark:text-slate-50 ml-1.5">Canceled</span>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="flex justify-center mt-10 mb-5">
+    <button
+      type="submit"
+      class="rounded relative inline-flex group items-center justify-center px-3.5 py-2 m-1 cursor-pointer border-b-4 border-l-2 active:border-[#1450A3] active:shadow-none shadow-lg bg-gradient-to-tr from-[#1450A3] to-[#1D267D] border-[#0D1282] text-white overflow-hidden"
+    >
+      <span
+        class="absolute w-0 h-0 transition-all duration-300 ease-out bg-white rounded-full group-hover:w-32 group-hover:h-32 opacity-10"
+      ></span>
+      <span class="relative">Save Data</span>
+    </button>
+  </div>
+</form>

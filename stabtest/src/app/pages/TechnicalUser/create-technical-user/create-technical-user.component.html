@@ -1,0 +1,75 @@
+<a
+  routerLink="/master/technical-user"
+  class="flex items-center justify-start gap-2 px-2 py-4 mb-3 duration-300 hover:bg-white dark:hover:bg-slate-800 dark:text-slate-50 hover:shadow-xl py4 w-fit rounded-xl hover:scale-105"
+>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M15 6L9 12L15 18"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+  Back
+</a>
+
+<div class="mb-6 text-3xl font-semibold dark:text-slate-50 text-cBlue">
+  Create Technical User
+</div>
+
+<form [formGroup]="form" (submit)="submit()">
+  <div class="grid grid-cols-2 gap-3 max-md:grid-cols-1">
+    <div class="">
+      <label for="input-name" class="cursor-pointer label dark:text-slate-50"
+        >Sections</label
+      >
+      <select
+        class="w-full shadow-xl dark:bg-slate-800 dark:text-slate-50 select"
+        formControlName="sectionId"
+      >
+        <option value="{{ item.id }}" *ngFor="let item of sections">
+          {{ item.name }}
+        </option>
+      </select>
+    </div>
+    <div class="">
+      <label for="input-name" class="cursor-pointer dark:text-slate-50"
+        >Name</label
+      >
+      <input
+        type="search"
+        id="input-name"
+        class="block w-full p-3 mt-4 text-base text-gray-900 border rounded-lg shadow-xl dark:border-none dark:text-slate-50 bg-gray-50 dark:bg-slate-800"
+        placeholder="Name"
+        formControlName="name"
+      />
+    </div>
+    <div class="">
+      <label for="input-name" class="cursor-pointer dark:text-slate-50"
+        >Email</label
+      >
+      <input
+        type="search"
+        id="input-name"
+        class="block w-full p-3 mt-4 text-base text-gray-900 border rounded-lg shadow-xl dark:border-none dark:text-slate-50 bg-gray-50 dark:bg-slate-800"
+        placeholder="Email"
+        formControlName="email"
+      />
+    </div>
+  </div>
+  <div class="flex items-center justify-center mt-6">
+    <button
+      type="submit"
+      class="text-white bg-cBlue hover:bg-[#150050] hover:scale-105 duration-300 active:scale-100 font-medium rounded-xl text-sm w-[200px] py-3 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 shadow-xl"
+    >
+      Submit
+    </button>
+  </div>
+</form>
